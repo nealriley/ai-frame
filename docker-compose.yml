@@ -1,0 +1,91 @@
+version: '3.8'
+
+services:
+  # Python API Server - Central processing hub
+  api-server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    container_name: ai-frame-api
+    ports:
+      - "3001:3001"
+    environment:
+      - PORT=3001
+      - ENABLE_AI=false
+      - FORWARD_APIS=${FORWARD_APIS:-}
+      - STORAGE_DAYS=7
+    volumes:
+      - ./uploads:/app/uploads
+      - ./processed:/app/processed
+    restart: unless-stopped
+    networks:
+      - ai-frame-network
+
+  # Web Server for VR/AR interface
+  webxr-server:
+    image: node:18-alpine
+    container_name: ai-frame-webxr
+    working_dir: /app
+    volumes:
+      - .:/app
+      - ./certs:/app/certs
+    ports:
+      - "8443:8443"
+    command: >
+      sh -c "npm install -g http-server &&
+             http-server -S -C certs/cert.pem -K certs/key.pem -p 8443"
+    restart: unless-stopped
+    networks:
+      - ai-frame-network
+
+  # Mobile interface server (separate port)
+  mobile-server:
+    image: node:18-alpine
+    container_name: ai-frame-mobile
+    working_dir: /app
+    volumes:
+      - .:/app
+    ports:
+      - "8080:8080"
+    command: >
+      sh -c "npm install -g http-server &&
+             http-server -p 8080"
+    restart: unless-stopped
+    networks:
+      - ai-frame-network
+
+  # Optional: Redis for session management
+  redis:
+    image: redis:7-alpine
+    container_name: ai-frame-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    restart: unless-stopped
+    networks:
+      - ai-frame-network
+
+  # Optional: PostgreSQL for persistent storage
+  postgres:
+    image: postgres:15-alpine
+    container_name: ai-frame-db
+    environment:
+      - POSTGRES_DB=aiframe
+      - POSTGRES_USER=aiframe
+      - POSTGRES_PASSWORD=${DB_PASSWORD:-aiframe123}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    restart: unless-stopped
+    networks:
+      - ai-frame-network
+
+networks:
+  ai-frame-network:
+    driver: bridge
+
+volumes:
+  redis-data:
+  postgres-data:

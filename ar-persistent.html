@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Frame - Persistent AR World</title>
+    <style>
+        body {
+            margin: 0;
+            background-color: #000;
+            color: white;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            overflow: hidden;
+        }
+        
+        #overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            flex-direction: column;
+            padding: 20px;
+        }
+        
+        .session-container {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 30px;
+            max-width: 500px;
+            width: 100%;
+            backdrop-filter: blur(10px);
+        }
+        
+        h1 {
+            margin: 0 0 10px 0;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .session-option {
+            margin: 15px 0;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .session-option:hover {
+            border-color: #667eea;
+            background: rgba(102, 126, 234, 0.1);
+        }
+        
+        .session-option.selected {
+            border-color: #764ba2;
+            background: rgba(118, 75, 162, 0.2);
+        }
+        
+        button {
+            padding: 15px 30px;
+            font-size: 18px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            margin: 10px 5px;
+            transition: transform 0.2s;
+        }
+        
+        button:hover {
+            transform: scale(1.05);
+        }
+        
+        button:disabled {
+            background: #444;
+            cursor: not-allowed;
+            transform: scale(1);
+        }
+        
+        #info {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            color: white;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 15px;
+            border-radius: 10px;
+            display: none;
+            z-index: 999;
+            max-width: 300px;
+        }
+        
+        .stat {
+            display: flex;
+            justify-content: space-between;
+            margin: 5px 0;
+            padding: 5px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        canvas {
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        
+        #status {
+            margin: 10px 0;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: #667eea;
+            animation: spin 1s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div id="overlay">
+        <div class="session-container">
+            <h1>Persistent AR World</h1>
+            <p>Choose or create an AR session:</p>
+            
+            <div class="session-option" onclick="selectSession('new')">
+                <strong>🆕 New Session</strong>
+                <div>Start a fresh AR world</div>
+            </div>
+            
+            <div class="session-option" onclick="selectSession('continue')">
+                <strong>📂 Continue Last Session</strong>
+                <div id="lastSessionInfo">Loading...</div>
+            </div>
+            
+            <div class="session-option" onclick="selectSession('demo')">
+                <strong>🎮 Demo World</strong>
+                <div>Load a pre-configured demo scene</div>
+            </div>
+            
+            <div id="status"></div>
+            
+            <div style="text-align: center; margin-top: 20px;">
+                <button id="startButton" onclick="startAR()" disabled>Start AR</button>
+                <button onclick="clearAllData()">Clear All Data</button>
+            </div>
+        </div>
+    </div>
+    
+    <div id="info">
+        <h3 style="margin-top: 0;">AR Session Active</h3>
+        <div class="stat">
+            <span>Session:</span>
+            <span id="sessionName">-</span>
+        </div>
+        <div class="stat">
+            <span>Objects Loaded:</span>
+            <span id="loadedCount">0</span>
+        </div>
+        <div class="stat">
+            <span>Objects Placed:</span>
+            <span id="placedCount">0</span>
+        </div>
+        <div class="stat">
+            <span>Total Objects:</span>
+            <span id="totalCount">0</span>
+        </div>
+        <hr style="border-color: rgba(255, 255, 255, 0.2);">
+        <div style="font-size: 12px;">
+            <strong>Controls:</strong><br>
+            Trigger: Place new cube<br>
+            Squeeze: Save scene data<br>
+            A Button: 📷 Camera photo<br>
+            B Button: 📸 Screenshot
+        </div>
+        <div id="message" style="margin-top: 10px; padding: 5px; background: rgba(102, 126, 234, 0.2); border-radius: 5px;">
+            Initializing...
+        </div>
+    </div>
+    
+    <canvas id="xrCanvas"></canvas>
+
+    <script>
+        // Configuration
+        // Use relative URL for API - works with both local and Codespaces
+        const API_BASE = window.location.protocol === 'https:' 
+            ? 'https://psychic-spork-r74rr59pp52qxr-3001.app.github.dev'
+            : 'http://localhost:3001';
+        
+        // Session management
+        let selectedSessionType = null;
+        let sessionId = null;
+        let buttonStates = { aPressed: false, bPressed: false };
+        
+        // Check if entering from 2D mode
+        const enterXRSession = localStorage.getItem('enterXRSession');
+        if (enterXRSession) {
+            localStorage.removeItem('enterXRSession');
+            // Will auto-continue with this session
+            setTimeout(() => {
+                const continueOption = document.querySelector('[data-type="continue"]');
+                if (continueOption) {
+                    continueOption.click();
+                    setTimeout(() => {
+                        document.getElementById('startButton').click();
+                    }, 500);
+                }
+            }, 1000);
+        }
+        let sessionData = {
+            loaded: [],
+            placed: [],
+            savedPositions: []
+        };
+        
+        // WebXR variables
+        let xrSession = null;
+        let xrRefSpace = null;
+        let xrHitTestSource = null;
+        let gl = null;
+        let shaderProgram = null;
+        
+        // Object management
+        let reticle = null;
+        let reticleVisible = false;
+        let objects = [];
+        let colorIndex = 0;
+        
+        // Colors for objects
+        const colors = [
+            [0.3, 0.76, 0.85],  // Cyan
+            [0.93, 0.18, 0.37], // Red
+            [1.0, 0.78, 0.36],  // Yellow
+            [0.48, 0.78, 0.46], // Green
+            [0.4, 0.49, 0.91],  // Blue
+            [0.71, 0.29, 0.82], // Purple
+        ];
+        
+        // Shaders (same as before)
+        const vertexShaderSource = `
+            attribute vec3 aVertexPosition;
+            attribute vec3 aVertexColor;
+            uniform mat4 uModelMatrix;
+            uniform mat4 uViewMatrix;
+            uniform mat4 uProjectionMatrix;
+            varying vec3 vColor;
+            void main() {
+                gl_Position = uProjectionMatrix * uViewMatrix * uModelMatrix * vec4(aVertexPosition, 1.0);
+                vColor = aVertexColor;
+            }
+        `;
+        
+        const fragmentShaderSource = `
+            precision mediump float;
+            varying vec3 vColor;
+            void main() {
+                gl_FragColor = vec4(vColor, 1.0);
+            }
+        `;
+        
+        // Initialize on page load
+        window.addEventListener('DOMContentLoaded', async () => {
+            await checkLastSession();
+            checkWebXRSupport();
+        });
+        
+        // Check for last session
+        async function checkLastSession() {
+            const lastSession = localStorage.getItem('lastARSession');
+            if (lastSession) {
+                try {
+                    const response = await fetch(`${API_BASE}/ar/${lastSession}/objects`);
+                    const data = await response.json();
+                    
+                    document.getElementById('lastSessionInfo').textContent = 
+                        `${data.count} objects saved`;
+                } catch (err) {
+                    document.getElementById('lastSessionInfo').textContent = 
+                        'No previous session found';
+                }
+            } else {
+                document.getElementById('lastSessionInfo').textContent = 
+                    'No previous session found';
+            }
+        }
+        
+        // Check WebXR support
+        async function checkWebXRSupport() {
+            if (!navigator.xr) {
+                updateStatus('WebXR not supported', 'error');
+                return;
+            }
+            
+            const arSupported = await navigator.xr.isSessionSupported('immersive-ar');
+            if (!arSupported) {
+                updateStatus('AR not supported on this device', 'error');
+            } else {
+                updateStatus('Select a session option', 'ready');
+            }
+        }
+        
+        // Select session type
+        function selectSession(type) {
+            selectedSessionType = type;
+            
+            // Update UI
+            document.querySelectorAll('.session-option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            event.currentTarget.classList.add('selected');
+            
+            // Enable start button
+            document.getElementById('startButton').disabled = false;
+            
+            // Update status
+            if (type === 'new') {
+                sessionId = 'ar-' + Date.now();
+                updateStatus('New session ready to start', 'ready');
+            } else if (type === 'continue') {
+                sessionId = localStorage.getItem('lastARSession') || 'ar-' + Date.now();
+                updateStatus('Will load previous objects on start', 'ready');
+            } else if (type === 'demo') {
+                sessionId = 'demo-world';
+                updateStatus('Demo world with sample objects', 'ready');
+            }
+        }
+        
+        // Start AR
+        async function startAR() {
+            if (!selectedSessionType) {
+                alert('Please select a session type');
+                return;
+            }
+            
+            updateStatus('Initializing AR...', 'loading');
+            
+            if (!initGL()) {
+                alert('Failed to initialize WebGL');
+                return;
+            }
+            
+            try {
+                // Request AR session
+                xrSession = await navigator.xr.requestSession('immersive-ar', {
+                    requiredFeatures: ['hit-test', 'local-floor'],
+                    optionalFeatures: ['dom-overlay', 'anchors'],
+                    domOverlay: { root: document.getElementById('info') }
+                });
+                
+                // Hide overlay, show info
+                document.getElementById('overlay').style.display = 'none';
+                document.getElementById('info').style.display = 'block';
+                
+                // Update session info
+                document.getElementById('sessionName').textContent = 
+                    selectedSessionType === 'new' ? 'New' : 
+                    selectedSessionType === 'continue' ? 'Continued' : 'Demo';
+                
+                // Save session to localStorage
+                localStorage.setItem('lastARSession', sessionId);
+                
+                await onSessionStarted();
+                
+                // Load existing objects if continuing or demo
+                if (selectedSessionType === 'continue' || selectedSessionType === 'demo') {
+                    await loadSavedObjects();
+                }
+                
+            } catch (err) {
+                console.error('Failed to start AR:', err);
+                alert('Failed to start AR: ' + err.message);
+            }
+        }
+        
+        // Load saved objects from API
+        async function loadSavedObjects() {
+            showMessage('Loading saved objects...');
+            
+            try {
+                // Always load from API - demo-world has real saved data now
+                const response = await fetch(`${API_BASE}/ar/${sessionId}/objects`);
+                const data = await response.json();
+                sessionData.savedPositions = data.objects || [];
+                
+                console.log(`Loading session: ${sessionId}, found ${data.count} objects`);
+                
+                // Place each saved object
+                for (const objData of sessionData.savedPositions) {
+                    await placeSavedObject(objData);
+                }
+                
+                document.getElementById('loadedCount').textContent = sessionData.loaded.length;
+                updateTotalCount();
+                showMessage(`Loaded ${sessionData.loaded.length} objects`);
+                
+            } catch (err) {
+                console.error('Failed to load objects:', err);
+                showMessage('Failed to load saved objects');
+            }
+        }
+        
+        // Place a saved object at its stored position
+        async function placeSavedObject(objData) {
+            const cube = createBuffer(createCubeGeometry(colors[colorIndex % colors.length]));
+            
+            // Create transform matrix from position
+            cube.transform = new Float32Array(16);
+            // Identity matrix
+            cube.transform[0] = 1; cube.transform[5] = 1; cube.transform[10] = 1; cube.transform[15] = 1;
+            
+            // Set position
+            if (objData.position && objData.position.length >= 3) {
+                cube.transform[12] = objData.position[0];
+                cube.transform[13] = objData.position[1] || 0;
+                cube.transform[14] = objData.position[2];
+            }
+            
+            cube.isLoaded = true;
+            cube.originalData = objData;
+            cube.id = objData.id || crypto.randomUUID(); // Use existing ID or generate new
+            
+            objects.push(cube);
+            sessionData.loaded.push(cube);
+            
+            colorIndex++;
+        }
+        
+        // Create cube geometry with specific color
+        function createCubeGeometry(color) {
+            const vertices = [];
+            const indices = [];
+            const size = 0.05;
+            
+            // Define cube vertices with the specified color
+            const positions = [
+                // Front face
+                [-size, -size,  size], [ size, -size,  size], [ size,  size,  size], [-size,  size,  size],
+                // Back face
+                [-size, -size, -size], [-size,  size, -size], [ size,  size, -size], [ size, -size, -size],
+                // Top face
+                [-size,  size, -size], [-size,  size,  size], [ size,  size,  size], [ size,  size, -size],
+                // Bottom face
+                [-size, -size, -size], [ size, -size, -size], [ size, -size,  size], [-size, -size,  size],
+                // Right face
+                [ size, -size, -size], [ size,  size, -size], [ size,  size,  size], [ size, -size,  size],
+                // Left face
+                [-size, -size, -size], [-size, -size,  size], [-size,  size,  size], [-size,  size, -size]
+            ];
+            
+            // Add vertices with color
+            for (const pos of positions) {
+                vertices.push(...pos, ...color);
+            }
+            
+            // Define indices for triangles
+            for (let i = 0; i < 6; i++) {
+                const base = i * 4;
+                indices.push(base, base + 1, base + 2, base, base + 2, base + 3);
+            }
+            
+            return {
+                vertices: new Float32Array(vertices),
+                indices: new Uint16Array(indices)
+            };
+        }
+        
+        // Create reticle geometry
+        function createReticleGeometry() {
+            const segments = 32;
+            const vertices = [];
+            const indices = [];
+            
+            for (let i = 0; i <= segments; i++) {
+                const angle = (i / segments) * Math.PI * 2;
+                vertices.push(
+                    Math.cos(angle) * 0.08, 0, Math.sin(angle) * 0.08, 0.0, 1.0, 0.0,
+                    Math.cos(angle) * 0.05, 0, Math.sin(angle) * 0.05, 0.0, 1.0, 0.0
+                );
+            }
+            
+            for (let i = 0; i < segments; i++) {
+                const base = i * 2;
+                indices.push(base, base + 1, base + 3, base, base + 3, base + 2);
+            }
+            
+            return {
+                vertices: new Float32Array(vertices),
+                indices: new Uint16Array(indices)
+            };
+        }
+        
+        // Initialize WebGL
+        function initGL() {
+            const canvas = document.getElementById('xrCanvas');
+            gl = canvas.getContext('webgl', {
+                xrCompatible: true,
+                alpha: true,
+                preserveDrawingBuffer: true
+            });
+            
+            if (!gl) return false;
+            
+            // Create shaders
+            const vertexShader = gl.createShader(gl.VERTEX_SHADER);
+            gl.shaderSource(vertexShader, vertexShaderSource);
+            gl.compileShader(vertexShader);
+            
+            const fragmentShader = gl.createShader(gl.FRAGMENT_SHADER);
+            gl.shaderSource(fragmentShader, fragmentShaderSource);
+            gl.compileShader(fragmentShader);
+            
+            // Create program
+            shaderProgram = gl.createProgram();
+            gl.attachShader(shaderProgram, vertexShader);
+            gl.attachShader(shaderProgram, fragmentShader);
+            gl.linkProgram(shaderProgram);
+            
+            if (!gl.getProgramParameter(shaderProgram, gl.LINK_STATUS)) {
+                console.error('Shader program failed to link');
+                return false;
+            }
+            
+            // Get locations
+            shaderProgram.aVertexPosition = gl.getAttribLocation(shaderProgram, 'aVertexPosition');
+            shaderProgram.aVertexColor = gl.getAttribLocation(shaderProgram, 'aVertexColor');
+            shaderProgram.uModelMatrix = gl.getUniformLocation(shaderProgram, 'uModelMatrix');
+            shaderProgram.uViewMatrix = gl.getUniformLocation(shaderProgram, 'uViewMatrix');
+            shaderProgram.uProjectionMatrix = gl.getUniformLocation(shaderProgram, 'uProjectionMatrix');
+            
+            gl.enable(gl.DEPTH_TEST);
+            gl.clearColor(0, 0, 0, 0);
+            
+            return true;
+        }
+        
+        // Create buffer
+        function createBuffer(geometry) {
+            const vertexBuffer = gl.createBuffer();
+            gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
+            gl.bufferData(gl.ARRAY_BUFFER, geometry.vertices, gl.STATIC_DRAW);
+            
+            const indexBuffer = gl.createBuffer();
+            gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBuffer);
+            gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, geometry.indices, gl.STATIC_DRAW);
+            
+            return {
+                vertexBuffer,
+                indexBuffer,
+                indexCount: geometry.indices.length
+            };
+        }
+        
+        // Session started
+        async function onSessionStarted() {
+            await gl.makeXRCompatible();
+            const layer = new XRWebGLLayer(xrSession, gl);
+            xrSession.updateRenderState({ baseLayer: layer });
+            
+            xrRefSpace = await xrSession.requestReferenceSpace('local-floor');
+            
+            const viewerSpace = await xrSession.requestReferenceSpace('viewer');
+            xrHitTestSource = await xrSession.requestHitTestSource({ space: viewerSpace });
+            
+            // Create reticle
+            const reticleGeo = createReticleGeometry();
+            reticle = createBuffer(reticleGeo);
+            reticle.transform = new Float32Array(16);
+            
+            // Setup events
+            xrSession.addEventListener('select', onSelect);
+            xrSession.addEventListener('squeeze', onSqueeze);
+            xrSession.addEventListener('end', onSessionEnd);
+            
+            xrSession.requestAnimationFrame(onXRFrame);
+            
+            showMessage('AR Ready - Point at surface');
+        }
+        
+        // Handle select (place new object)
+        function onSelect(event) {
+            if (reticleVisible && reticle) {
+                placeNewObject();
+            }
+        }
+        
+        // Place new object
+        function placeNewObject() {
+            const cube = createBuffer(createCubeGeometry(colors[colorIndex % colors.length]));
+            cube.transform = new Float32Array(reticle.transform);
+            cube.isLoaded = false;
+            cube.id = crypto.randomUUID(); // Add unique ID for tracking
+            
+            objects.push(cube);
+            sessionData.placed.push(cube);
+            
+            // Save to server
+            saveObjectToServer(cube);
+            
+            document.getElementById('placedCount').textContent = sessionData.placed.length;
+            updateTotalCount();
+            showMessage(`Placed cube ${objects.length}`);
+            
+            colorIndex++;
+        }
+        
+        // Save object to server
+        async function saveObjectToServer(obj) {
+            const position = [
+                obj.transform[12],
+                obj.transform[13],
+                obj.transform[14]
+            ];
+            
+            try {
+                const response = await fetch(`${API_BASE}/ar/${sessionId}/objects`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        id: obj.id || crypto.randomUUID(),
+                        type: 'cube',
+                        position: position,
+                        metadata: {
+                            color: colorIndex - 1,
+                            timestamp: Date.now()
+                        }
+                    })
+                });
+                
+                if (response.ok) {
+                    console.log('Object saved to server');
+                } else {
+                    console.error('Save failed:', response.status, await response.text());
+                    showMessage('Save failed - check console');
+                }
+            } catch (err) {
+                console.error('Failed to save object:', err);
+                showMessage('Network error - object saved locally only');
+            }
+        }
+        
+        // Handle squeeze (save all & screenshot)
+        async function onSqueeze(event) {
+            showMessage('Saving scene...');
+            
+            // Take screenshot
+            const canvas = document.getElementById('xrCanvas');
+            canvas.toBlob(async (blob) => {
+                const formData = new FormData();
+                formData.append('image', blob, `ar_scene_${Date.now()}.png`);
+                formData.append('source', 'webxr');
+                formData.append('session_id', sessionId);
+                formData.append('text', JSON.stringify({
+                    totalObjects: objects.length,
+                    loadedObjects: sessionData.loaded.length,
+                    placedObjects: sessionData.placed.length
+                }));
+                
+                try {
+                    await fetch(`${API_BASE}/upload`, {
+                        method: 'POST',
+                        body: formData
+                    });
+                    showMessage('Scene saved!');
+                } catch (err) {
+                    console.error('Upload failed:', err);
+                    showMessage('Save failed');
+                }
+            }, 'image/png');
+        }
+        
+        // Take screenshot (B button)
+        async function takeScreenshot() {
+            showMessage('📸 Screenshot...');
+            
+            const canvas = document.getElementById('xrCanvas');
+            canvas.toBlob(async (blob) => {
+                const timestamp = Date.now();
+                const formData = new FormData();
+                formData.append('image', blob, `screenshot_${timestamp}.png`);
+                formData.append('source', 'webxr');
+                formData.append('session_id', sessionId);
+                formData.append('capture_type', 'screenshot');
+                formData.append('metadata', JSON.stringify({
+                    timestamp: timestamp,
+                    objects_in_view: objects.length,
+                    type: 'xr_screenshot'
+                }));
+                
+                try {
+                    const response = await fetch(`${API_BASE}/upload`, {
+                        method: 'POST',
+                        body: formData
+                    });
+                    
+                    if (response.ok) {
+                        showMessage('✅ Screenshot saved!');
+                        console.log('Screenshot saved to:', sessionId);
+                    } else {
+                        showMessage('❌ Screenshot failed');
+                    }
+                } catch (err) {
+                    console.error('Screenshot error:', err);
+                    showMessage('❌ Network error');
+                }
+            }, 'image/png');
+        }
+        
+        // Take camera photo (A button)
+        async function takeCameraPhoto() {
+            showMessage('📷 Photo...');
+            
+            const canvas = document.getElementById('xrCanvas');
+            
+            // Create high quality capture
+            const tempCanvas = document.createElement('canvas');
+            tempCanvas.width = canvas.width;
+            tempCanvas.height = canvas.height;
+            const ctx = tempCanvas.getContext('2d');
+            ctx.drawImage(canvas, 0, 0);
+            
+            tempCanvas.toBlob(async (blob) => {
+                const timestamp = Date.now();
+                const formData = new FormData();
+                formData.append('image', blob, `camera_${timestamp}.jpg`);
+                formData.append('source', 'webxr');
+                formData.append('session_id', sessionId);
+                formData.append('capture_type', 'camera_photo');
+                formData.append('metadata', JSON.stringify({
+                    timestamp: timestamp,
+                    objects_count: objects.length,
+                    type: 'xr_camera_photo'
+                }));
+                
+                try {
+                    const response = await fetch(`${API_BASE}/upload`, {
+                        method: 'POST',
+                        body: formData
+                    });
+                    
+                    if (response.ok) {
+                        showMessage('✅ Photo saved!');
+                        console.log('Photo saved to:', sessionId);
+                    } else {
+                        showMessage('❌ Photo failed');
+                    }
+                } catch (err) {
+                    console.error('Photo error:', err);
+                    showMessage('❌ Network error');
+                }
+            }, 'image/jpeg', 0.92);
+        }
+        
+        // Render frame
+        function onXRFrame(time, frame) {
+            const session = frame.session;
+            session.requestAnimationFrame(onXRFrame);
+            
+            const pose = frame.getViewerPose(xrRefSpace);
+            if (!pose) return;
+            
+            // Check for gamepad button presses (A and B buttons)
+            for (const inputSource of session.inputSources) {
+                if (inputSource.gamepad) {
+                    const gamepad = inputSource.gamepad;
+                    
+                    // A button (button 4) - Take camera photo
+                    if (gamepad.buttons[4] && gamepad.buttons[4].pressed) {
+                        if (!buttonStates.aPressed) {
+                            buttonStates.aPressed = true;
+                            takeCameraPhoto();
+                        }
+                    } else {
+                        buttonStates.aPressed = false;
+                    }
+                    
+                    // B button (button 5) - Take screenshot
+                    if (gamepad.buttons[5] && gamepad.buttons[5].pressed) {
+                        if (!buttonStates.bPressed) {
+                            buttonStates.bPressed = true;
+                            takeScreenshot();
+                        }
+                    } else {
+                        buttonStates.bPressed = false;
+                    }
+                }
+            }
+            
+            gl.bindFramebuffer(gl.FRAMEBUFFER, session.renderState.baseLayer.framebuffer);
+            gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+            
+            // Hit test
+            if (xrHitTestSource) {
+                const hitTestResults = frame.getHitTestResults(xrHitTestSource);
+                
+                if (hitTestResults.length > 0) {
+                    const hit = hitTestResults[0];
+                    const hitPose = hit.getPose(xrRefSpace);
+                    
+                    if (hitPose && reticle) {
+                        reticleVisible = true;
+                        reticle.transform = hitPose.transform.matrix;
+                    }
+                } else {
+                    reticleVisible = false;
+                }
+            }
+            
+            // Render for each eye
+            for (const view of pose.views) {
+                const viewport = session.renderState.baseLayer.getViewport(view);
+                gl.viewport(viewport.x, viewport.y, viewport.width, viewport.height);
+                
+                gl.useProgram(shaderProgram);
+                
+                gl.uniformMatrix4fv(shaderProgram.uViewMatrix, false, view.transform.inverse.matrix);
+                gl.uniformMatrix4fv(shaderProgram.uProjectionMatrix, false, view.projectionMatrix);
+                
+                // Draw reticle
+                if (reticleVisible && reticle) {
+                    drawObject(reticle);
+                }
+                
+                // Draw all objects
+                for (const obj of objects) {
+                    drawObject(obj);
+                }
+            }
+        }
+        
+        // Draw object
+        function drawObject(obj) {
+            gl.bindBuffer(gl.ARRAY_BUFFER, obj.vertexBuffer);
+            gl.vertexAttribPointer(shaderProgram.aVertexPosition, 3, gl.FLOAT, false, 24, 0);
+            gl.vertexAttribPointer(shaderProgram.aVertexColor, 3, gl.FLOAT, false, 24, 12);
+            gl.enableVertexAttribArray(shaderProgram.aVertexPosition);
+            gl.enableVertexAttribArray(shaderProgram.aVertexColor);
+            
+            gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, obj.indexBuffer);
+            gl.uniformMatrix4fv(shaderProgram.uModelMatrix, false, obj.transform);
+            
+            gl.drawElements(gl.TRIANGLES, obj.indexCount, gl.UNSIGNED_SHORT, 0);
+        }
+        
+        // Session end
+        function onSessionEnd() {
+            xrSession = null;
+            document.getElementById('overlay').style.display = 'flex';
+            document.getElementById('info').style.display = 'none';
+            
+            // Reset UI
+            document.querySelectorAll('.session-option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            document.getElementById('startButton').disabled = true;
+            
+            updateStatus('Session ended', 'ready');
+        }
+        
+        // Utility functions
+        function updateStatus(message, type = 'info') {
+            const status = document.getElementById('status');
+            status.innerHTML = type === 'loading' ? 
+                `<span class="loading"></span> ${message}` : message;
+        }
+        
+        function showMessage(message) {
+            document.getElementById('message').textContent = message;
+        }
+        
+        function updateTotalCount() {
+            document.getElementById('totalCount').textContent = objects.length;
+        }
+        
+        // Clear all data
+        async function clearAllData() {
+            if (confirm('This will clear all saved AR data. Continue?')) {
+                localStorage.removeItem('lastARSession');
+                sessionData = { loaded: [], placed: [], savedPositions: [] };
+                objects = [];
+                updateStatus('All data cleared', 'ready');
+                await checkLastSession();
+            }
+        }
+    </script>
+</body>
+</html>

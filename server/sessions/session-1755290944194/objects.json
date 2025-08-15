@@ -1,0 +1,82 @@
+[
+  {
+    "id": "320cd26d-b9b2-4119-8243-6151aa667838",
+    "type": "cube",
+    "position": [
+      0.6900166754753878,
+      0,
+      1.4184560175256917
+    ],
+    "rotation": null,
+    "timestamp": "2025-08-15T20:49:08.962024",
+    "session_id": "session-1755290944194",
+    "metadata": {
+      "color": -1,
+      "timestamp": 1755290949508
+    }
+  },
+  {
+    "id": "e7cae80b-dbda-48c8-9117-a7dd3d8e5fb9",
+    "type": "cube",
+    "position": [
+      -2.591533394166884,
+      0,
+      -2.5798232824093583
+    ],
+    "rotation": null,
+    "timestamp": "2025-08-15T20:49:09.023583",
+    "session_id": "session-1755290944194",
+    "metadata": {
+      "color": 0,
+      "timestamp": 1755290949728
+    }
+  },
+  {
+    "id": "cccf1a9b-b15b-4ef0-aa10-b22131568c84",
+    "type": "cube",
+    "position": [
+      -3.9355365569080254,
+      0,
+      0.4296525066363886
+    ],
+    "rotation": null,
+    "timestamp": "2025-08-15T20:49:09.188596",
+    "session_id": "session-1755290944194",
+    "metadata": {
+      "color": 1,
+      "timestamp": 1755290949928
+    }
+  },
+  {
+    "id": "aa920a81-4cf0-43f2-aef4-b8814476e049",
+    "type": "cube",
+    "position": [
+      0.4410848487615148,
+      0,
+      0.9582675679298169
+    ],
+    "rotation": null,
+    "timestamp": "2025-08-15T20:49:09.983989",
+    "session_id": "session-1755290944194",
+    "metadata": {
+      "color": 2,
+      "timestamp": 1755290950829
+    }
+  },
+  {
+    "id": "11c8850b-600d-4211-9a69-ad9d8538f8cb",
+    "type": "cube",
+    "position": [
+      -3.3477541258471715,
+      0,
+      -0.5921428711411975
+    ],
+    "rotation": null,
+    "timestamp": "2025-08-15T20:49:11.365890",
+    "session_id": "session-1755290944194",
+    "metadata": {
+      "color": 3,
+      "timestamp": 1755290952107
+    }
+  }
+]

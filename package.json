@@ -1,0 +1,23 @@
+{
+  "name": "ai-frame",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "serve": "http-server -p 8080",
+    "serve:https": "http-server -S -C certs/cert.pem -K certs/key.pem -p 8443",
+    "serve:python": "python3 -m http.server 8080"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "http-server": "^14.1.1"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "multer": "^2.0.2"
+  }
+}

@@ -1,0 +1,482 @@
+[
+  {
+    "id": "dd573496-1de0-4120-b9b0-fcc1e1ebb216",
+    "type": "cube",
+    "position": [
+      1.966240771935755,
+      0,
+      -0.10616457104786596
+    ],
+    "rotation": null,
+    "timestamp": "2025-08-15T21:46:47.428357",
+    "session_id": "session-1755294401877",
+    "metadata": {
+      "color": 5,
+      "timestamp": 1755294407210
+    }
+  },
+  {
+    "id": "9733b3d0-6d63-4bf9-af2b-f7f10c3e4fcc",
+    "type": "cube",
+    "position": [
+      -0.2553024178713262,
+      0,
+      1.672216992848446
+    ],
+    "rotation": null,
+    "timestamp": "2025-08-15T21:46:47.441690",
+    "session_id": "session-1755294401877",
+    "metadata": {
+      "color": 4,
+      "timestamp": 1755294407048
+    }
+  },
+  {
+    "id": "eabcddf6-3c2d-4ecb-b1bf-0c4e58dc9db0",
+    "type": "cube",
+    "position": [
+      1.515915566125581,
+      0,
+      2.033391235060529
+    ],
+    "rotation": null,
+    "timestamp": "2025-08-15T21:46:47.556990",
+    "session_id": "session-1755294401877",
+    "metadata": {
+      "color": 6,
+      "timestamp": 1755294407395
+    }
+  },
+  {
+    "id": "47d98c16-23ad-4b55-b850-cdf192597ca5",
+    "type": "cube",
+    "position": [
+      2.3750881248039755,
+      0,
+      -0.7554254854289842
+    ],
+    "rotation": null,
+    "timestamp": "2025-08-15T21:46:47.715031",
+    "session_id": "session-1755294401877",
+    "metadata": {
+      "color": 7,
+      "timestamp": 1755294407559
+    }
+  },
+  {
+    "id": "b7c6c2db-0154-4899-9ea9-1c5418664c56",
+    "type": "cube",
+    "position": [
+      1.9830772065561202,
+      0,
+      0.8688721009470892
+    ],
+    "rotation": null,
+    "timestamp": "2025-08-15T21:46:47.789222",
+    "session_id": "session-1755294401877",
+    "metadata": {
+      "color": 8,
+      "timestamp": 1755294407726
+    }
+  },
+  {
+    "id": "9c8a4e55-d780-4c97-8ed9-99ee5650f5a6",
+    "type": "cube",
+    "position": [
+      2.4655934669720616,
+      0,
+      -1.7298503712974789
+    ],
+    "rotation": null,
+    "timestamp": "2025-08-15T21:46:48.061526",
+    "session_id": "session-1755294401877",
+    "metadata": {
+      "color": 9,
+      "timestamp": 1755294407892
+    }
+  },
+  {
+    "id": "b51b9487-f5df-4c21-b42e-2ad2c2de2e24",
+    "type": "cube",
+    "position": [
+      -1.7891170109697805,
+      0,
+      0.5740942590845435
+    ],
+    "rotation": null,
+    "timestamp": "2025-08-15T21:46:48.110289",
+    "session_id": "session-1755294401877",
+    "metadata": {
+      "color": 10,
+      "timestamp": 1755294408046
+    }
+  },
+  {
+    "id": "5e60b1a1-ec06-4234-952b-282c05c6a0d4",
+    "type": "cube",
+    "position": [
+      1.4511341061639451,
+      0,
+      3.6563583756770526
+    ],
+    "rotation": null,
+    "timestamp": "2025-08-15T21:46:48.383877",
+    "session_id": "session-1755294401877",
+    "metadata": {
+      "color": 11,
+      "timestamp": 1755294408210
+    }
+  },
+  {
+    "id": "e3e168b6-2939-49cc-93cd-ea83f2184ac9",
+    "type": "cube",
+    "position": [
+      0.5771198112994912,
+      0,
+      -3.773313880643038
+    ],
+    "rotation": null,
+    "timestamp": "2025-08-15T21:46:49.157290",
+    "session_id": "session-1755294401877",
+    "metadata": {
+      "color": 1,
+      "timestamp": 1755294409103
+    }
+  },
+  {
+    "id": "9a3fe65d-0c25-408a-ba68-930db6617bce",
+    "type": "cube",
+    "position": [
+      2.170642161619697,
+      0,
+      2.671421799144636
+    ],
+    "rotation": null,
+    "timestamp": "2025-08-15T21:46:49.335195",
+    "session_id": "session-1755294401877",
+    "metadata": {
+      "color": 2,
+      "timestamp": 1755294409282
+    }
+  },
+  {
+    "id": "7263be3c-3cb7-4de1-8710-8df6d50b0335",
+    "type": "cube",
+    "position": [
+      1.7424366744527517,
+      0,
+      -1.786676768117073
+    ],
+    "rotation": null,
+    "timestamp": "2025-08-15T21:46:49.502876",
+    "session_id": "session-1755294401877",
+    "metadata": {
+      "color": 3,
+      "timestamp": 1755294409450
+    }
+  },
+  {
+    "id": "329c8499-464c-4bbb-ba0a-4cc935e0eeda",
+    "type": "cube",
+    "position": [
+      -1.1981124417769777,
+      0,
+      -0.9307526073133532
+    ],
+    "rotation": null,
+    "timestamp": "2025-08-15T21:46:49.675267",
+    "session_id": "session-1755294401877",
+    "metadata": {
+      "color": 4,
+      "timestamp": 1755294409619
+    }
+  },
+  {
+    "id": "a81e8ec7-4498-43b8-af81-72114b3b6fee",
+    "type": "cube",
+    "position": [
+      0.34789419536730803,
+      0,
+      -1.65282579880046
+    ],
+    "rotation": null,
+    "timestamp": "2025-08-15T21:46:49.841311",
+    "session_id": "session-1755294401877",
+    "metadata": {
+      "color": 5,
+      "timestamp": 1755294409787
+    }
+  },
+  {
+    "id": "59cb66f1-5a46-4da2-a6af-86ef0ff74c36",
+    "type": "cube",
+    "position": [
+      2.1558016557360795,
+      0,
+      -0.6394974074077724
+    ],
+    "rotation": null,
+    "timestamp": "2025-08-15T21:46:50.016148",
+    "session_id": "session-1755294401877",
+    "metadata": {
+      "color": 6,
+      "timestamp": 1755294409960
+    }
+  },
+  {
+    "id": "e7945023-54a5-457a-b251-683d7daa8ad6",
+    "type": "cube",
+    "position": [
+      -2.1472400929644713,
+      0,
+      -1.1844788292133657
+    ],
+    "rotation": null,
+    "timestamp": "2025-08-15T21:46:50.184231",
+    "session_id": "session-1755294401877",
+    "metadata": {
+      "color": 7,
+      "timestamp": 1755294410126
+    }
+  },
+  {
+    "id": "6d57b5a0-8fcd-4335-af43-ac12e5c57174",
+    "type": "cube",
+    "position": [
+      -3.1625891594906017,
+      0,
+      0.43260997815232566
+    ],
+    "rotation": null,
+    "timestamp": "2025-08-15T21:46:51.366537",
+    "session_id": "session-1755294401877",
+    "metadata": {
+      "color": 9,
+      "timestamp": 1755294411314
+    }
+  },
+  {
+    "id": "cefa16c1-9b07-4b7c-95ed-749cd8fd4bdf",
+    "type": "cube",
+    "position": [
+      -2.672679752905263,
+      0,
+      -1.4637905440538586
+    ],
+    "rotation": null,
+    "timestamp": "2025-08-15T21:46:51.541507",
+    "session_id": "session-1755294401877",
+    "metadata": {
+      "color": 10,
+      "timestamp": 1755294411492
+    }
+  },
+  {
+    "id": "fd1bc658-6332-44e5-bbda-981abc4d7aed",
+    "type": "cube",
+    "position": [
+      -1.8429379804542083,
+      0,
+      1.001654732135651
+    ],
+    "rotation": null,
+    "timestamp": "2025-08-15T21:46:51.718975",
+    "session_id": "session-1755294401877",
+    "metadata": {
+      "color": 11,
+      "timestamp": 1755294411663
+    }
+  },
+  {
+    "id": "486dfa64-d145-441f-bcb8-c1377f64afc4",
+    "type": "cube",
+    "position": [
+      1.9837074349891286,
+      0,
+      2.9991105327550502
+    ],
+    "rotation": null,
+    "timestamp": "2025-08-15T21:46:51.878814",
+    "session_id": "session-1755294401877",
+    "metadata": {
+      "color": 12,
+      "timestamp": 1755294411826
+    }
+  },
+  {
+    "id": "f3d51952-3476-43c7-89f6-fb675ccf1583",
+    "type": "cube",
+    "position": [
+      -0.7108494505941247,
+      0,
+      1.3220880540846103
+    ],
+    "rotation": null,
+    "timestamp": "2025-08-15T21:46:52.048828",
+    "session_id": "session-1755294401877",
+    "metadata": {
+      "color": 13,
+      "timestamp": 1755294411993
+    }
+  },
+  {
+    "id": "119d0a56-071b-42b8-913f-688e6e9fbc65",
+    "type": "cube",
+    "position": [
+      -1.4018201635332272,
+      0,
+      -3.73246805907713
+    ],
+    "rotation": null,
+    "timestamp": "2025-08-15T21:46:52.219585",
+    "session_id": "session-1755294401877",
+    "metadata": {
+      "color": 14,
+      "timestamp": 1755294412163
+    }
+  },
+  {
+    "id": "a9aa1e88-ee47-4c2b-b37c-42ace19d84db",
+    "type": "cube",
+    "position": [
+      1.2150805392970694,
+      0,
+      -1.2218173745495795
+    ],
+    "rotation": null,
+    "timestamp": "2025-08-15T21:46:52.461988",
+    "session_id": "session-1755294401877",
+    "metadata": {
+      "color": 15,
+      "timestamp": 1755294412334
+    }
+  },
+  {
+    "id": "7607efef-c152-4f8a-b7c5-276b3b811789",
+    "type": "cube",
+    "position": [
+      2.944315671394376,
+      0,
+      -0.4121246432669264
+    ],
+    "rotation": null,
+    "timestamp": "2025-08-15T21:46:52.570523",
+    "session_id": "session-1755294401877",
+    "metadata": {
+      "color": 16,
+      "timestamp": 1755294412515
+    }
+  },
+  {
+    "id": "fd04feb0-ca0f-4d50-b155-68fe7f4ce523",
+    "type": "cube",
+    "position": [
+      -0.6208225457283774,
+      0,
+      -3.473218959689735
+    ],
+    "rotation": null,
+    "timestamp": "2025-08-15T21:46:52.759616",
+    "session_id": "session-1755294401877",
+    "metadata": {
+      "color": 17,
+      "timestamp": 1755294412700
+    }
+  },
+  {
+    "id": "5d3a15ba-e757-4219-a7ec-6485f6184989",
+    "type": "cube",
+    "position": [
+      0.42907779445361727,
+      0,
+      2.8380602933263157
+    ],
+    "rotation": null,
+    "timestamp": "2025-08-15T21:46:52.941931",
+    "session_id": "session-1755294401877",
+    "metadata": {
+      "color": 18,
+      "timestamp": 1755294412882
+    }
+  },
+  {
+    "id": "9e6199d9-9404-4a28-be82-885820915a72",
+    "type": "cube",
+    "position": [
+      -1.3593969953042497,
+      0,
+      1.1368064022988884
+    ],
+    "rotation": null,
+    "timestamp": "2025-08-15T21:46:53.122413",
+    "session_id": "session-1755294401877",
+    "metadata": {
+      "color": 19,
+      "timestamp": 1755294413063
+    }
+  },
+  {
+    "id": "643e7b41-8dcb-47dc-9b83-a04c934f3484",
+    "type": "cube",
+    "position": [
+      1.073083107705864,
+      0,
+      0.38685876945988035
+    ],
+    "rotation": null,
+    "timestamp": "2025-08-15T21:46:53.304565",
+    "session_id": "session-1755294401877",
+    "metadata": {
+      "color": 20,
+      "timestamp": 1755294413248
+    }
+  },
+  {
+    "id": "f4d331de-f2d1-4fcf-81d1-83a68c87642f",
+    "type": "cube",
+    "position": [
+      2.8132062276739824,
+      0,
+      1.3827306502594692
+    ],
+    "rotation": null,
+    "timestamp": "2025-08-15T21:46:53.464765",
+    "session_id": "session-1755294401877",
+    "metadata": {
+      "color": 21,
+      "timestamp": 1755294413414
+    }
+  },
+  {
+    "id": "6354f509-63b0-481a-b2c8-d74e53ebc68c",
+    "type": "cube",
+    "position": [
+      1.4933945857912705,
+      0,
+      1.5306232491667338
+    ],
+    "rotation": null,
+    "timestamp": "2025-08-15T21:46:53.639910",
+    "session_id": "session-1755294401877",
+    "metadata": {
+      "color": 22,
+      "timestamp": 1755294413583
+    }
+  },
+  {
+    "id": "79765f5b-515a-4e3d-8a0b-9e3e46a38558",
+    "type": "cube",
+    "position": [
+      2.0378470256441674,
+      0,
+      0.4134697676902583
+    ],
+    "rotation": null,
+    "timestamp": "2025-08-15T21:46:53.819526",
+    "session_id": "session-1755294401877",
+    "metadata": {
+      "color": 23,
+      "timestamp": 1755294413760
+    }
+  }
+]

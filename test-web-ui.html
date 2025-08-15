@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Web UI</title>
+</head>
+<body>
+    <h1>Testing AR Persistent Web UI</h1>
+    <div id="results"></div>
+    
+    <script>
+        const API_BASE = 'http://localhost:3001';
+        const testSessionId = 'web-ui-test';
+        const results = document.getElementById('results');
+        
+        async function runTests() {
+            results.innerHTML = '<h2>Running tests...</h2>';
+            
+            // Test 1: Clear session
+            try {
+                const clearRes = await fetch(`${API_BASE}/ar/${testSessionId}/objects`, {
+                    method: 'DELETE'
+                });
+                const clearData = await clearRes.json();
+                results.innerHTML += `<p>✅ Clear session: ${clearData.message}</p>`;
+            } catch (err) {
+                results.innerHTML += `<p>❌ Clear session failed: ${err.message}</p>`;
+            }
+            
+            // Test 2: Save object (simulating what ar-persistent.html does)
+            try {
+                const obj = {
+                    id: crypto.randomUUID(),
+                    type: 'cube',
+                    position: [2, 1, -3],
+                    metadata: {
+                        color: 7,
+                        timestamp: Date.now()
+                    }
+                };
+                
+                const saveRes = await fetch(`${API_BASE}/ar/${testSessionId}/objects`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(obj)
+                });
+                const saveData = await saveRes.json();
+                results.innerHTML += `<p>✅ Save object: ${saveData.success ? 'Success' : 'Failed'}</p>`;
+            } catch (err) {
+                results.innerHTML += `<p>❌ Save object failed: ${err.message}</p>`;
+            }
+            
+            // Test 3: Load objects
+            try {
+                const loadRes = await fetch(`${API_BASE}/ar/${testSessionId}/objects`);
+                const loadData = await loadRes.json();
+                results.innerHTML += `<p>✅ Load objects: Found ${loadData.count} objects</p>`;
+                
+                if (loadData.objects.length > 0) {
+                    results.innerHTML += '<h3>Loaded Objects:</h3><pre>' + 
+                        JSON.stringify(loadData.objects, null, 2) + '</pre>';
+                }
+            } catch (err) {
+                results.innerHTML += `<p>❌ Load objects failed: ${err.message}</p>`;
+            }
+        }
+        
+        // Run tests on load
+        runTests();
+    </script>
+</body>
+</html>

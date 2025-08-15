@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Frame - Quest Launcher</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            max-width: 500px;
+        }
+        h1 {
+            margin-bottom: 20px;
+        }
+        #qrcode {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            display: inline-block;
+            margin: 20px 0;
+        }
+        .url-input {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: none;
+            margin: 10px 0;
+            font-size: 14px;
+        }
+        .btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 10px;
+            font-size: 16px;
+        }
+        .btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+        .instructions {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            text-align: left;
+        }
+        .instructions h3 {
+            margin-top: 0;
+        }
+        .instructions ol {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+        .instructions li {
+            margin: 8px 0;
+        }
+        .launch-link {
+            word-break: break-all;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            font-family: monospace;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎭 AI Frame Quest Launcher</h1>
+        <p>Generate a QR code to launch AI Frame on your Meta Quest</p>
+        
+        <input type="url" 
+               id="app-url" 
+               class="url-input" 
+               placeholder="Enter your app URL (e.g., https://your-codespace.github.dev/)"
+               value="">
+        
+        <div>
+            <button class="btn" onclick="generateQR()">Generate QR Code</button>
+            <button class="btn" onclick="useCurrentURL()">Use Current URL</button>
+        </div>
+        
+        <div id="qrcode"></div>
+        
+        <div id="launch-url" class="launch-link" style="display: none;"></div>
+        
+        <div class="instructions">
+            <h3>How to use:</h3>
+            <ol>
+                <li>Enter your AI Frame app URL above</li>
+                <li>Click "Generate QR Code"</li>
+                <li>On your Meta Quest:
+                    <ul>
+                        <li>Open the QR Scanner app from Meta Store</li>
+                        <li>Look at this QR code to scan it</li>
+                        <li>Choose "Open URL" when prompted</li>
+                    </ul>
+                </li>
+                <li>The Oculus.com page will open</li>
+                <li>Click "Open in VR" to launch on your Quest</li>
+                <li>AI Frame will open in the Quest Browser</li>
+            </ol>
+            
+            <h3>Alternative: Direct Link</h3>
+            <p>You can also click the generated launch link on any device signed into your Meta account.</p>
+        </div>
+    </div>
+
+    <script>
+        let qrcode = null;
+
+        function generateQR() {
+            const appURL = document.getElementById('app-url').value.trim();
+            
+            if (!appURL) {
+                alert('Please enter a URL first');
+                return;
+            }
+            
+            // Validate URL
+            try {
+                new URL(appURL);
+            } catch (e) {
+                alert('Please enter a valid URL');
+                return;
+            }
+            
+            // Create the Web Launch URL
+            const encodedURL = encodeURIComponent(appURL);
+            const webLaunchURL = `https://www.oculus.com/open_url/?url=${encodedURL}`;
+            
+            // Clear previous QR code
+            document.getElementById('qrcode').innerHTML = '';
+            
+            // Generate new QR code
+            qrcode = new QRCode(document.getElementById('qrcode'), {
+                text: webLaunchURL,
+                width: 256,
+                height: 256,
+                colorDark: '#000000',
+                colorLight: '#ffffff',
+                correctLevel: QRCode.CorrectLevel.H
+            });
+            
+            // Show the launch URL
+            const launchDiv = document.getElementById('launch-url');
+            launchDiv.innerHTML = `<strong>Launch URL:</strong><br><a href="${webLaunchURL}" target="_blank" style="color: #4ade80;">${webLaunchURL}</a>`;
+            launchDiv.style.display = 'block';
+        }
+
+        function useCurrentURL() {
+            // Use the current page's origin
+            const currentURL = window.location.origin + '/';
+            document.getElementById('app-url').value = currentURL;
+            generateQR();
+        }
+
+        // Auto-populate with GitHub Codespaces URL if detected
+        window.addEventListener('DOMContentLoaded', () => {
+            const hostname = window.location.hostname;
+            if (hostname.includes('github.dev')) {
+                document.getElementById('app-url').value = window.location.origin + '/';
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>2D Mode Integration Test</title>
+    <style>
+        body {
+            font-family: monospace;
+            padding: 20px;
+            background: #1a1a2e;
+            color: white;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+        .success { color: #4ade80; }
+        .error { color: #ff4444; }
+        .info { color: #667eea; }
+        button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            margin: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #764ba2;
+        }
+        pre {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧪 2D Mode Integration Test</h1>
+    
+    <div class="test-section">
+        <h2>Test Configuration</h2>
+        <div id="config"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Test Actions</h2>
+        <button onclick="testSaveObject()">Test Save Object</button>
+        <button onclick="testLoadObjects()">Test Load Objects</button>
+        <button onclick="testClearSession()">Test Clear Session</button>
+        <button onclick="runFullTest()">Run Full Test Suite</button>
+    </div>
+    
+    <div class="test-section">
+        <h2>Test Results</h2>
+        <div id="results"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Session Data</h2>
+        <pre id="session-data">No data loaded</pre>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:3001';
+        const TEST_SESSION = `test-2d-${Date.now()}`;
+        const results = document.getElementById('results');
+        const sessionData = document.getElementById('session-data');
+        const config = document.getElementById('config');
+        
+        // Display config
+        config.innerHTML = `
+            <div class="info">API Base: ${API_BASE}</div>
+            <div class="info">Test Session: ${TEST_SESSION}</div>
+            <div class="info">Timestamp: ${new Date().toISOString()}</div>
+        `;
+        
+        function log(message, type = 'info') {
+            const entry = document.createElement('div');
+            entry.className = type;
+            entry.textContent = `[${new Date().toTimeString().split(' ')[0]}] ${message}`;
+            results.appendChild(entry);
+        }
+        
+        async function testSaveObject() {
+            log('Testing object save...', 'info');
+            
+            const testObject = {
+                type: 'cube',
+                position: [Math.random() * 4 - 2, 0, Math.random() * -4],
+                metadata: {
+                    color: Math.floor(Math.random() * 12),
+                    timestamp: Date.now(),
+                    testData: 'Integration test object'
+                }
+            };
+            
+            try {
+                const response = await fetch(`${API_BASE}/ar/${TEST_SESSION}/objects`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(testObject)
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    log(`✅ Object saved successfully - ID: ${data.object.id}`, 'success');
+                    sessionData.textContent = JSON.stringify(data, null, 2);
+                    return true;
+                } else {
+                    const error = await response.text();
+                    log(`❌ Save failed: ${response.status} - ${error}`, 'error');
+                    return false;
+                }
+            } catch (err) {
+                log(`❌ Network error: ${err.message}`, 'error');
+                return false;
+            }
+        }
+        
+        async function testLoadObjects() {
+            log('Testing object load...', 'info');
+            
+            try {
+                const response = await fetch(`${API_BASE}/ar/${TEST_SESSION}/objects`);
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    log(`✅ Loaded ${data.count} objects from session`, 'success');
+                    sessionData.textContent = JSON.stringify(data, null, 2);
+                    
+                    // Display object positions
+                    data.objects.forEach((obj, i) => {
+                        log(`  Object ${i+1}: Position [${obj.position.join(', ')}], Color: ${obj.metadata?.color}`, 'info');
+                    });
+                    
+                    return true;
+                } else {
+                    log(`❌ Load failed: ${response.status}`, 'error');
+                    return false;
+                }
+            } catch (err) {
+                log(`❌ Network error: ${err.message}`, 'error');
+                return false;
+            }
+        }
+        
+        async function testClearSession() {
+            log('Testing session clear...', 'info');
+            
+            try {
+                const response = await fetch(`${API_BASE}/ar/${TEST_SESSION}/objects`, {
+                    method: 'DELETE'
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    log(`✅ Session cleared: ${data.message}`, 'success');
+                    sessionData.textContent = JSON.stringify(data, null, 2);
+                    return true;
+                } else {
+                    log(`❌ Clear failed: ${response.status}`, 'error');
+                    return false;
+                }
+            } catch (err) {
+                log(`❌ Network error: ${err.message}`, 'error');
+                return false;
+            }
+        }
+        
+        async function runFullTest() {
+            log('=== Starting Full Test Suite ===', 'info');
+            results.innerHTML = '';
+            
+            // Test 1: Clear session first
+            log('1. Clearing session...', 'info');
+            await testClearSession();
+            
+            // Test 2: Save multiple objects
+            log('2. Saving 3 test objects...', 'info');
+            for (let i = 0; i < 3; i++) {
+                await testSaveObject();
+                await new Promise(resolve => setTimeout(resolve, 100));
+            }
+            
+            // Test 3: Load and verify
+            log('3. Loading objects back...', 'info');
+            await testLoadObjects();
+            
+            // Test 4: Check file persistence
+            log('4. Checking file persistence...', 'info');
+            try {
+                const response = await fetch(`${API_BASE}/status`);
+                const status = await response.json();
+                log(`✅ Server status: ${status.status}, Files stored: ${status.files_stored}`, 'success');
+            } catch (err) {
+                log(`❌ Status check failed: ${err.message}`, 'error');
+            }
+            
+            log('=== Test Suite Complete ===', 'info');
+        }
+        
+        // Auto-run basic test on load
+        window.addEventListener('load', () => {
+            log('Test page loaded. Click buttons to run tests.', 'info');
+        });
+    </script>
+</body>
+</html>

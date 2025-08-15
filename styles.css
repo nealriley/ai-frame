@@ -1,0 +1,239 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+    background: #0a0a0a;
+    color: #ffffff;
+    overflow: hidden;
+}
+
+#app-container {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+}
+
+#control-panel {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 320px;
+    height: 100vh;
+    background: rgba(20, 20, 20, 0.95);
+    backdrop-filter: blur(10px);
+    padding: 20px;
+    z-index: 100;
+    overflow-y: auto;
+    transition: transform 0.3s ease;
+}
+
+#control-panel.hidden-in-vr {
+    transform: translateX(-100%);
+}
+
+h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.status-bar {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    margin-bottom: 20px;
+    font-size: 12px;
+}
+
+.status-bar span {
+    display: flex;
+    align-items: center;
+}
+
+.status-bar span::before {
+    content: '';
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin-right: 8px;
+    background: #666;
+}
+
+#xr-status.ready::before {
+    background: #4ade80;
+}
+
+#api-status.configured::before {
+    background: #4ade80;
+}
+
+.controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.btn-primary, .btn-secondary {
+    flex: 1;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
+}
+
+.btn-secondary {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+#config-panel {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+#config-panel.hidden {
+    display: none;
+}
+
+#config-panel h3 {
+    font-size: 16px;
+    margin-bottom: 15px;
+}
+
+#config-panel input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 6px;
+    color: white;
+    font-size: 14px;
+}
+
+#config-panel input::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.capture-preview {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    padding: 15px;
+}
+
+#preview-canvas {
+    width: 100%;
+    height: auto;
+    border-radius: 6px;
+    background: #000;
+}
+
+#audio-preview {
+    width: 100%;
+    margin-top: 10px;
+}
+
+#text-preview {
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 6px;
+    margin-top: 10px;
+    font-family: 'Courier New', monospace;
+    font-size: 14px;
+    min-height: 60px;
+}
+
+#xr-scene {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    #control-panel {
+        width: 100%;
+        height: auto;
+        max-height: 50vh;
+        bottom: 0;
+        top: auto;
+        transform: none;
+    }
+    
+    #control-panel.hidden-in-vr {
+        transform: translateY(100%);
+    }
+}
+
+/* Loading Animation */
+.loading {
+    position: relative;
+    overflow: hidden;
+}
+
+.loading::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+    0% { left: -100%; }
+    100% { left: 100%; }
+}
+
+/* Recording Indicator */
+.recording {
+    animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
+
+.recording-dot {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    background: #ff3333;
+    border-radius: 50%;
+    margin-right: 8px;
+    animation: pulse 1s infinite;
+}

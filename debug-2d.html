@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>2D Mode Debug Console</title>
+    <style>
+        body {
+            font-family: monospace;
+            background: #1a1a2e;
+            color: #0f0;
+            padding: 20px;
+        }
+        #console {
+            background: black;
+            padding: 15px;
+            border: 1px solid #0f0;
+            height: 400px;
+            overflow-y: auto;
+        }
+        .log-entry {
+            margin: 2px 0;
+            font-size: 12px;
+        }
+        .error { color: #f00; }
+        .success { color: #0f0; }
+        .info { color: #0ff; }
+        button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 10px;
+            margin: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔍 2D Mode Debug Console</h1>
+    
+    <div>
+        <button onclick="checkAPI()">Check API</button>
+        <button onclick="testSave()">Test Save</button>
+        <button onclick="testLoad()">Test Load</button>
+        <button onclick="clearConsole()">Clear</button>
+    </div>
+    
+    <div id="console"></div>
+    
+    <script>
+        const API_BASE = window.location.protocol === 'https:' 
+            ? 'https://psychic-spork-r74rr59pp52qxr-3001.app.github.dev'
+            : 'http://localhost:3001';
+        
+        const debugConsole = document.getElementById('console');
+        const testSession = 'debug-' + Date.now();
+        
+        function log(msg, type = 'info') {
+            const entry = document.createElement('div');
+            entry.className = `log-entry ${type}`;
+            entry.textContent = `[${new Date().toTimeString().slice(0,8)}] ${msg}`;
+            debugConsole.appendChild(entry);
+            debugConsole.scrollTop = debugConsole.scrollHeight;
+        }
+        
+        async function checkAPI() {
+            log('Checking API connection...', 'info');
+            log(`API_BASE: ${API_BASE}`, 'info');
+            
+            try {
+                const response = await fetch(`${API_BASE}/status`);
+                const data = await response.json();
+                log(`✓ API Status: ${data.status}`, 'success');
+                log(`  Sessions: ${data.sessions}, Files: ${data.files_stored}`, 'info');
+            } catch (err) {
+                log(`✗ API Error: ${err.message}`, 'error');
+                log(`  Check if API server is running on port 3001`, 'error');
+            }
+        }
+        
+        async function testSave() {
+            log(`Testing save to session: ${testSession}`, 'info');
+            
+            const testObj = {
+                type: 'cube',
+                position: [1, 0, -2],
+                metadata: {
+                    color: 5,
+                    timestamp: Date.now()
+                }
+            };
+            
+            try {
+                log(`POST ${API_BASE}/ar/${testSession}/objects`, 'info');
+                log(`Body: ${JSON.stringify(testObj)}`, 'info');
+                
+                const response = await fetch(`${API_BASE}/ar/${testSession}/objects`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(testObj)
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    log(`✓ Save successful! ID: ${data.object.id}`, 'success');
+                } else {
+                    const error = await response.text();
+                    log(`✗ Save failed: ${response.status}`, 'error');
+                    log(`  Response: ${error}`, 'error');
+                }
+            } catch (err) {
+                log(`✗ Network error: ${err.message}`, 'error');
+            }
+        }
+        
+        async function testLoad() {
+            log(`Testing load from session: ${testSession}`, 'info');
+            
+            try {
+                log(`GET ${API_BASE}/ar/${testSession}/objects`, 'info');
+                
+                const response = await fetch(`${API_BASE}/ar/${testSession}/objects`);
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    log(`✓ Load successful! Found ${data.count} objects`, 'success');
+                    if (data.objects.length > 0) {
+                        data.objects.forEach((obj, i) => {
+                            log(`  Object ${i+1}: pos=[${obj.position}], color=${obj.metadata?.color}`, 'info');
+                        });
+                    }
+                } else {
+                    log(`✗ Load failed: ${response.status}`, 'error');
+                }
+            } catch (err) {
+                log(`✗ Network error: ${err.message}`, 'error');
+            }
+        }
+        
+        function clearConsole() {
+            debugConsole.innerHTML = '';
+            log('Console cleared', 'info');
+        }
+        
+        // Auto-check API on load
+        window.addEventListener('load', () => {
+            log('Debug console ready', 'success');
+            checkAPI();
+        });
+    </script>
+</body>
+</html>

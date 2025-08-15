@@ -1,0 +1,17 @@
+{
+  "id": "55a326f1-a660-49ac-a2c8-3ef23f430b06",
+  "source": "webxr",
+  "device": "2d-canvas",
+  "session_id": "session-1755261137861",
+  "timestamp": "2025-08-15T12:32:30.490027",
+  "capture_type": "2d-scene",
+  "totalObjects": 11,
+  "loadedObjects": 0,
+  "placedObjects": 11,
+  "cameraPosition": [
+    0,
+    5,
+    10
+  ],
+  "sessionId": "session-1755261137861"
+}

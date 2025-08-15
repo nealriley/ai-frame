@@ -1,0 +1,722 @@
+[
+  {
+    "id": "b38f17ef-1f40-4be6-8314-64d64b20ea6a",
+    "type": "cube",
+    "position": [
+      -0.24592691659927368,
+      0,
+      -1.1866881847381592
+    ],
+    "rotation": null,
+    "timestamp": "2025-08-14T11:41:14.471864",
+    "session_id": "demo-world",
+    "metadata": {
+      "color": 4,
+      "timestamp": 1755171674419
+    }
+  },
+  {
+    "id": "64c541c0-1f1d-404e-a9ff-56009441f878",
+    "type": "cube",
+    "position": [
+      -0.20220690965652466,
+      0,
+      -1.248400092124939
+    ],
+    "rotation": null,
+    "timestamp": "2025-08-14T11:41:14.832499",
+    "session_id": "demo-world",
+    "metadata": {
+      "color": 5,
+      "timestamp": 1755171674819
+    }
+  },
+  {
+    "id": "090c55df-c137-4341-bd40-bbe31c1da7e2",
+    "type": "cube",
+    "position": [
+      -0.502578854560852,
+      -2.384185791015625e-07,
+      -1.7530624866485596
+    ],
+    "rotation": null,
+    "timestamp": "2025-08-14T11:41:15.049194",
+    "session_id": "demo-world",
+    "metadata": {
+      "color": 6,
+      "timestamp": 1755171675041
+    }
+  },
+  {
+    "id": "f1219c84-336c-4958-9394-afa1dbb140b1",
+    "type": "cube",
+    "position": [
+      -0.16263647377490997,
+      -2.384185791015625e-07,
+      -1.6393617391586304
+    ],
+    "rotation": null,
+    "timestamp": "2025-08-14T11:41:15.247128",
+    "session_id": "demo-world",
+    "metadata": {
+      "color": 7,
+      "timestamp": 1755171675241
+    }
+  },
+  {
+    "id": "2d00b4a1-d560-4462-afab-5cdf858c9634",
+    "type": "cube",
+    "position": [
+      0.2065272033214569,
+      -2.384185791015625e-07,
+      -1.6237492561340332
+    ],
+    "rotation": null,
+    "timestamp": "2025-08-14T11:41:15.436077",
+    "session_id": "demo-world",
+    "metadata": {
+      "color": 8,
+      "timestamp": 1755171675419
+    }
+  },
+  {
+    "id": "353bbfa6-2938-44f9-9463-f7990016bd48",
+    "type": "cube",
+    "position": [
+      0.6437528729438782,
+      -2.384185791015625e-07,
+      -1.8860106468200684
+    ],
+    "rotation": null,
+    "timestamp": "2025-08-14T11:41:15.611906",
+    "session_id": "demo-world",
+    "metadata": {
+      "color": 9,
+      "timestamp": 1755171675597
+    }
+  },
+  {
+    "id": "25da9094-6f41-461f-ac55-ced1dbfe8ac0",
+    "type": "cube",
+    "position": [
+      0.25376585125923157,
+      -2.384185791015625e-07,
+      -1.3991202116012573
+    ],
+    "rotation": null,
+    "timestamp": "2025-08-14T11:41:15.835538",
+    "session_id": "demo-world",
+    "metadata": {
+      "color": 10,
+      "timestamp": 1755171675819
+    }
+  },
+  {
+    "id": "b9490132-e8e7-4bc9-8d12-c3e8d298bdb1",
+    "type": "cube",
+    "position": [
+      0.15009184181690216,
+      -2.384185791015625e-07,
+      -1.2999759912490845
+    ],
+    "rotation": null,
+    "timestamp": "2025-08-14T11:41:16.002540",
+    "session_id": "demo-world",
+    "metadata": {
+      "color": 11,
+      "timestamp": 1755171675997
+    }
+  },
+  {
+    "id": "05f7904d-fc20-4ccf-822a-282c4b21997d",
+    "type": "cube",
+    "position": [
+      -0.03877110034227371,
+      -2.384185791015625e-07,
+      -1.515273928642273
+    ],
+    "rotation": null,
+    "timestamp": "2025-08-14T11:41:16.187290",
+    "session_id": "demo-world",
+    "metadata": {
+      "color": 12,
+      "timestamp": 1755171676186
+    }
+  },
+  {
+    "id": "be1f222b-402f-4460-8fa7-2f70ec272d7b",
+    "type": "cube",
+    "position": [
+      -1.2233128547668457,
+      -1.1920928955078125e-07,
+      -0.8066396713256836
+    ],
+    "rotation": null,
+    "timestamp": "2025-08-14T11:41:17.081404",
+    "session_id": "demo-world",
+    "metadata": {
+      "color": 13,
+      "timestamp": 1755171677175
+    }
+  },
+  {
+    "id": "87a70f1b-cb7f-4091-9acc-2c155a8b1578",
+    "type": "cube",
+    "position": [
+      -0.2691035866737366,
+      -2.384185791015625e-07,
+      -1.3753165006637573
+    ],
+    "rotation": null,
+    "timestamp": "2025-08-14T11:41:17.270574",
+    "session_id": "demo-world",
+    "metadata": {
+      "color": 14,
+      "timestamp": 1755171677363
+    }
+  },
+  {
+    "id": "b0f6c8c6-3ae5-43c8-95ad-351719ab4a0d",
+    "type": "cube",
+    "position": [
+      0.2701394855976105,
+      -2.384185791015625e-07,
+      -2.1800594329833984
+    ],
+    "rotation": null,
+    "timestamp": "2025-08-14T11:41:17.486616",
+    "session_id": "demo-world",
+    "metadata": {
+      "color": 15,
+      "timestamp": 1755171677563
+    }
+  },
+  {
+    "id": "dea59f9d-c703-4342-859c-e78f821464aa",
+    "type": "cube",
+    "position": [
+      0.1870952546596527,
+      -5.960464477539062e-07,
+      -3.7266907691955566
+    ],
+    "rotation": null,
+    "timestamp": "2025-08-14T11:41:17.656852",
+    "session_id": "demo-world",
+    "metadata": {
+      "color": 16,
+      "timestamp": 1755171677741
+    }
+  },
+  {
+    "id": "595a2603-1e06-463d-9650-e9a0c8d2fb5a",
+    "type": "cube",
+    "position": [
+      -0.48538658022880554,
+      -4.76837158203125e-07,
+      -3.3927111625671387
+    ],
+    "rotation": null,
+    "timestamp": "2025-08-14T11:41:17.839668",
+    "session_id": "demo-world",
+    "metadata": {
+      "color": 17,
+      "timestamp": 1755171677919
+    }
+  },
+  {
+    "id": "377fd596-01a7-4a7b-90da-0adcbfd5e066",
+    "type": "cube",
+    "position": [
+      -0.30251723527908325,
+      -3.5762786865234375e-07,
+      -3.060206413269043
+    ],
+    "rotation": null,
+    "timestamp": "2025-08-14T11:41:18.036955",
+    "session_id": "demo-world",
+    "metadata": {
+      "color": 18,
+      "timestamp": 1755171678119
+    }
+  },
+  {
+    "id": "adb02527-343c-4252-b470-1d9d5699c5c1",
+    "type": "cube",
+    "position": [
+      1.6290950775146484,
+      -2.384185791015625e-07,
+      -2.5448029041290283
+    ],
+    "rotation": null,
+    "timestamp": "2025-08-14T11:41:20.928189",
+    "session_id": "demo-world",
+    "metadata": {
+      "color": 19,
+      "timestamp": 1755171681007
+    }
+  },
+  {
+    "id": "d77d4937-645a-46c6-8c24-f91cbe4eb4b1",
+    "type": "cube",
+    "position": [
+      1.4709069728851318,
+      0,
+      -1.266575574874878
+    ],
+    "rotation": null,
+    "timestamp": "2025-08-14T11:41:21.112405",
+    "session_id": "demo-world",
+    "metadata": {
+      "color": 20,
+      "timestamp": 1755171681197
+    }
+  },
+  {
+    "id": "18c252b6-5589-448f-b177-967b4bb4d7da",
+    "type": "cube",
+    "position": [
+      1.0613971948623657,
+      -1.1920928955078125e-07,
+      -1.0025509595870972
+    ],
+    "rotation": null,
+    "timestamp": "2025-08-14T11:41:21.290534",
+    "session_id": "demo-world",
+    "metadata": {
+      "color": 21,
+      "timestamp": 1755171681374
+    }
+  },
+  {
+    "id": "04bdaef3-6c3a-473f-92b1-a7033c08b0b9",
+    "type": "cube",
+    "position": [
+      0.71402508020401,
+      -2.384185791015625e-07,
+      -1.1917424201965332
+    ],
+    "rotation": null,
+    "timestamp": "2025-08-14T11:41:21.459638",
+    "session_id": "demo-world",
+    "metadata": {
+      "color": 22,
+      "timestamp": 1755171681552
+    }
+  },
+  {
+    "id": "dc288b8c-7d6d-48f3-b111-b8496c103dea",
+    "type": "cube",
+    "position": [
+      0.39765727519989014,
+      -2.384185791015625e-07,
+      -1.3234000205993652
+    ],
+    "rotation": null,
+    "timestamp": "2025-08-14T11:41:21.669174",
+    "session_id": "demo-world",
+    "metadata": {
+      "color": 23,
+      "timestamp": 1755171681752
+    }
+  },
+  {
+    "id": "1f287ba4-cf6d-494f-bea2-103a0a983bd5",
+    "type": "cube",
+    "position": [
+      1.0892033576965332,
+      -1.1920928955078125e-07,
+      -0.7399592399597168
+    ],
+    "rotation": null,
+    "timestamp": "2025-08-14T11:41:22.016787",
+    "session_id": "demo-world",
+    "metadata": {
+      "color": 25,
+      "timestamp": 1755171682108
+    }
+  },
+  {
+    "id": "d3df03c4-cac5-4786-bf60-7fdbbb453be9",
+    "type": "cube",
+    "position": [
+      0.6099216938018799,
+      -2.384185791015625e-07,
+      -1.0900806188583374
+    ],
+    "rotation": null,
+    "timestamp": "2025-08-14T11:41:22.115115",
+    "session_id": "demo-world",
+    "metadata": {
+      "color": 24,
+      "timestamp": 1755171681930
+    }
+  },
+  {
+    "id": "6e263eff-cc36-4d49-ac4a-1508bb1362a6",
+    "type": "cube",
+    "position": [
+      2.007911443710327,
+      1.1920928955078125e-07,
+      -0.44287288188934326
+    ],
+    "rotation": null,
+    "timestamp": "2025-08-14T11:41:22.218834",
+    "session_id": "demo-world",
+    "metadata": {
+      "color": 26,
+      "timestamp": 1755171682296
+    }
+  },
+  {
+    "id": "3e261f1d-e0e3-4bb1-8488-c3a5a0262b93",
+    "type": "cube",
+    "position": [
+      2.2588703632354736,
+      0,
+      -0.6004260778427124
+    ],
+    "rotation": null,
+    "timestamp": "2025-08-14T11:41:22.385490",
+    "session_id": "demo-world",
+    "metadata": {
+      "color": 27,
+      "timestamp": 1755171682474
+    }
+  },
+  {
+    "id": "e3367d7e-6bdc-41ad-97cb-f5706cfcfd8f",
+    "type": "cube",
+    "position": [
+      1.7788788080215454,
+      0,
+      -0.7506864070892334
+    ],
+    "rotation": null,
+    "timestamp": "2025-08-14T11:41:22.562569",
+    "session_id": "demo-world",
+    "metadata": {
+      "color": 28,
+      "timestamp": 1755171682652
+    }
+  },
+  {
+    "id": "a92d807a-aca5-473a-a9c5-a119fdb50b7f",
+    "type": "cube",
+    "position": [
+      1.4986660480499268,
+      0,
+      -0.4851619601249695
+    ],
+    "rotation": null,
+    "timestamp": "2025-08-14T11:41:22.737949",
+    "session_id": "demo-world",
+    "metadata": {
+      "color": 29,
+      "timestamp": 1755171682830
+    }
+  },
+  {
+    "id": "17354e78-1461-41d6-8a33-28b46d45cc68",
+    "type": "cube",
+    "position": [
+      1.3115472793579102,
+      0,
+      -0.8204216361045837
+    ],
+    "rotation": null,
+    "timestamp": "2025-08-14T11:41:22.915213",
+    "session_id": "demo-world",
+    "metadata": {
+      "color": 30,
+      "timestamp": 1755171683007
+    }
+  },
+  {
+    "id": "5128ba84-9cac-40c3-829a-44ed473d9a64",
+    "type": "cube",
+    "position": [
+      1.5272886753082275,
+      0,
+      -0.9445444941520691
+    ],
+    "rotation": null,
+    "timestamp": "2025-08-14T11:41:23.101652",
+    "session_id": "demo-world",
+    "metadata": {
+      "color": 31,
+      "timestamp": 1755171683185
+    }
+  },
+  {
+    "id": "d8024c9b-a287-4875-8f8e-1148704bf78f",
+    "type": "cube",
+    "position": [
+      1.9557127952575684,
+      0,
+      -0.7559999227523804
+    ],
+    "rotation": null,
+    "timestamp": "2025-08-14T11:41:23.294577",
+    "session_id": "demo-world",
+    "metadata": {
+      "color": 32,
+      "timestamp": 1755171683374
+    }
+  },
+  {
+    "id": "00b23db3-0753-49e4-9a13-4164679505d6",
+    "type": "cube",
+    "position": [
+      1.5121214389801025,
+      0,
+      -0.7623151540756226
+    ],
+    "rotation": null,
+    "timestamp": "2025-08-14T11:41:23.436064",
+    "session_id": "demo-world",
+    "metadata": {
+      "color": 33,
+      "timestamp": 1755171683529
+    }
+  },
+  {
+    "id": "d0bfa09e-2d34-464d-9133-7caac8c5ce1b",
+    "type": "cube",
+    "position": [
+      1.090477466583252,
+      0,
+      -0.8711589574813843
+    ],
+    "rotation": null,
+    "timestamp": "2025-08-14T11:41:23.626751",
+    "session_id": "demo-world",
+    "metadata": {
+      "color": 34,
+      "timestamp": 1755171683708
+    }
+  },
+  {
+    "id": "9bb5335d-ad68-474b-8b0b-f6ab47c6d163",
+    "type": "cube",
+    "position": [
+      0.9310728907585144,
+      -1.1920928955078125e-07,
+      -1.2828397750854492
+    ],
+    "rotation": null,
+    "timestamp": "2025-08-14T11:41:23.792745",
+    "session_id": "demo-world",
+    "metadata": {
+      "color": 35,
+      "timestamp": 1755171683885
+    }
+  },
+  {
+    "id": "48c89cbb-161e-4102-8c32-28d25f12e868",
+    "type": "cube",
+    "position": [
+      0.489825963973999,
+      -2.384185791015625e-07,
+      -1.822159767150879
+    ],
+    "rotation": null,
+    "timestamp": "2025-08-14T11:41:24.009626",
+    "session_id": "demo-world",
+    "metadata": {
+      "color": 36,
+      "timestamp": 1755171684086
+    }
+  },
+  {
+    "id": "abb04376-7d24-460b-b58a-818e13297634",
+    "type": "cube",
+    "position": [
+      0.36522454023361206,
+      -2.384185791015625e-07,
+      -1.7252390384674072
+    ],
+    "rotation": null,
+    "timestamp": "2025-08-14T11:41:25.470200",
+    "session_id": "demo-world",
+    "metadata": {
+      "color": 37,
+      "timestamp": 1755171685563
+    }
+  },
+  {
+    "id": "c7ab516c-95a3-4955-86af-4ecda775d4a0",
+    "type": "cube",
+    "position": [
+      0.35440003871917725,
+      -2.384185791015625e-07,
+      -1.56539785861969
+    ],
+    "rotation": null,
+    "timestamp": "2025-08-14T11:41:25.714444",
+    "session_id": "demo-world",
+    "metadata": {
+      "color": 38,
+      "timestamp": 1755171685808
+    }
+  },
+  {
+    "id": "42e22335-0aba-475c-8189-0824d0c73021",
+    "type": "cube",
+    "position": [
+      0.7144352197647095,
+      -2.384185791015625e-07,
+      -1.2364537715911865
+    ],
+    "rotation": null,
+    "timestamp": "2025-08-14T11:41:25.893079",
+    "session_id": "demo-world",
+    "metadata": {
+      "color": 39,
+      "timestamp": 1755171685986
+    }
+  },
+  {
+    "id": "4b0275d6-6799-4cf1-bbdf-b42b7a55d737",
+    "type": "cube",
+    "position": [
+      1.1248902082443237,
+      0,
+      -1.2073535919189453
+    ],
+    "rotation": null,
+    "timestamp": "2025-08-14T11:41:26.072636",
+    "session_id": "demo-world",
+    "metadata": {
+      "color": 40,
+      "timestamp": 1755171686163
+    }
+  },
+  {
+    "id": "444b1fde-d692-484d-9356-130bf9d223f6",
+    "type": "cube",
+    "position": [
+      0.7858820557594299,
+      -2.384185791015625e-07,
+      -1.5267891883850098
+    ],
+    "rotation": null,
+    "timestamp": "2025-08-14T11:41:26.248041",
+    "session_id": "demo-world",
+    "metadata": {
+      "color": 41,
+      "timestamp": 1755171686341
+    }
+  },
+  {
+    "id": "c2bdbd56-4445-4752-a875-239336ccfcc3",
+    "type": "cube",
+    "position": [
+      0.8528578877449036,
+      -1.1920928955078125e-07,
+      -1.312168836593628
+    ],
+    "rotation": null,
+    "timestamp": "2025-08-14T11:41:26.413939",
+    "session_id": "demo-world",
+    "metadata": {
+      "color": 42,
+      "timestamp": 1755171686508
+    }
+  },
+  {
+    "id": "f32cfaf7-9622-4642-8c48-58a84dd297f4",
+    "type": "cube",
+    "position": [
+      0.9057945013046265,
+      -1.1920928955078125e-07,
+      -1.214327335357666
+    ],
+    "rotation": null,
+    "timestamp": "2025-08-14T11:41:26.615980",
+    "session_id": "demo-world",
+    "metadata": {
+      "color": 43,
+      "timestamp": 1755171686708
+    }
+  },
+  {
+    "id": "58335f6c-f682-4f7b-a3b7-a7717059d2fc",
+    "type": "cube",
+    "position": [
+      0.6540831923484802,
+      -1.1920928955078125e-07,
+      -1.301046371459961
+    ],
+    "rotation": null,
+    "timestamp": "2025-08-14T11:41:26.791066",
+    "session_id": "demo-world",
+    "metadata": {
+      "color": 44,
+      "timestamp": 1755171686885
+    }
+  },
+  {
+    "id": "c74be5ec-67bf-4dad-ae16-bd6b9ba6caa9",
+    "type": "cube",
+    "position": [
+      0.66999351978302,
+      0,
+      -0.9972937107086182
+    ],
+    "rotation": null,
+    "timestamp": "2025-08-14T11:41:26.969060",
+    "session_id": "demo-world",
+    "metadata": {
+      "color": 45,
+      "timestamp": 1755171687063
+    }
+  },
+  {
+    "id": "34bcbcac-78a4-4bb4-865a-2bf534d60432",
+    "type": "cube",
+    "position": [
+      0.4832017719745636,
+      -2.384185791015625e-07,
+      -1.1587735414505005
+    ],
+    "rotation": null,
+    "timestamp": "2025-08-14T11:41:27.168604",
+    "session_id": "demo-world",
+    "metadata": {
+      "color": 46,
+      "timestamp": 1755171687263
+    }
+  },
+  {
+    "id": "6eef1e77-8e17-4fde-bb03-813fac9234ac",
+    "type": "cube",
+    "position": [
+      0.16181840002536774,
+      -2.384185791015625e-07,
+      -1.619127631187439
+    ],
+    "rotation": null,
+    "timestamp": "2025-08-14T11:41:27.352416",
+    "session_id": "demo-world",
+    "metadata": {
+      "color": 47,
+      "timestamp": 1755171687441
+    }
+  },
+  {
+    "id": "18b70e03-f997-4e35-b3a5-e977889133c8",
+    "type": "cube",
+    "position": [
+      0.15051060914993286,
+      -3.5762786865234375e-07,
+      -1.893318772315979
+    ],
+    "rotation": null,
+    "timestamp": "2025-08-14T11:41:27.524503",
+    "session_id": "demo-world",
+    "metadata": {
+      "color": 48,
+      "timestamp": 1755171687619
+    }
+  }
+]

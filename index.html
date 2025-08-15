@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AI Frame - Persistent AR World Platform">
+    <title>AI Frame - Persistent AR World</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            color: white;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 800px;
+            width: 100%;
+            text-align: center;
+        }
+
+        header {
+            margin-bottom: 50px;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        h1 {
+            font-size: 3.5em;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .subtitle {
+            font-size: 1.3em;
+            opacity: 0.8;
+            margin-bottom: 30px;
+        }
+
+        .launch-button {
+            display: inline-block;
+            margin: 30px auto;
+            padding: 20px 40px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-size: 1.2em;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+        }
+
+        .launch-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.5);
+        }
+
+        .instructions {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: left;
+        }
+
+        .instructions h2 {
+            margin-bottom: 20px;
+            color: #667eea;
+            text-align: center;
+        }
+
+        .instructions ol {
+            margin-left: 20px;
+        }
+
+        .instructions li {
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .instructions strong {
+            color: #667eea;
+        }
+
+        .status {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .status-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            font-size: 0.9em;
+        }
+
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #4ade80;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .api-info {
+            margin-top: 30px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            font-family: monospace;
+            font-size: 0.85em;
+        }
+
+        .api-info h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        .api-endpoints {
+            text-align: left;
+            margin-top: 10px;
+        }
+
+        .api-endpoints div {
+            padding: 5px 0;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .footer {
+            margin-top: 40px;
+            opacity: 0.7;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>AI Frame</h1>
+            <p class="subtitle">Persistent AR World Platform</p>
+            
+            <a href="ar-persistent-2d.html" class="launch-button">
+                🌍 Launch AR Experience (2D/XR)
+            </a>
+            
+            <div style="margin-top: 15px;">
+                <a href="ar-persistent.html" style="color: #667eea; text-decoration: none; font-size: 0.9em;">
+                    Or use XR-only version →
+                </a>
+            </div>
+
+            <div class="status">
+                <div class="status-item">
+                    <span class="status-dot"></span>
+                    <span>API Server Active</span>
+                </div>
+                <div class="status-item">
+                    <span class="status-dot"></span>
+                    <span>WebXR Ready</span>
+                </div>
+            </div>
+        </header>
+
+        <div class="instructions">
+            <h2>🎯 How to Use</h2>
+            <ol>
+                <li><strong>Click the Launch button</strong> above or navigate directly in Quest Browser</li>
+                <li><strong>Choose your session:</strong>
+                    <ul style="margin-top: 10px; margin-left: 20px;">
+                        <li>🆕 New Session - Start with a blank AR space</li>
+                        <li>📂 Continue Last - Resume your previous world</li>
+                        <li>🎮 Demo World - Explore a pre-built scene</li>
+                    </ul>
+                </li>
+                <li><strong>Grant permissions</strong> when prompted for AR access</li>
+                <li><strong>Point at surfaces</strong> - Green ring indicates placement area</li>
+                <li><strong>Pull trigger</strong> to place persistent objects</li>
+                <li><strong>Come back anytime</strong> - Your objects persist across sessions!</li>
+            </ol>
+        </div>
+
+        <div class="api-info">
+            <h3>API Endpoints</h3>
+            <div class="api-endpoints">
+                <div>GET /ar/{session}/objects - Load saved objects</div>
+                <div>POST /ar/{session}/objects - Save new object</div>
+                <div>DELETE /ar/{session}/objects - Clear session</div>
+                <div>POST /upload - Upload media captures</div>
+                <div>GET /status - Server health check</div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>Built for Meta Quest 3 • Optimized for GitHub Codespaces</p>
+            <p style="margin-top: 10px;">See API_DOCUMENTATION.md for full API details</p>
+        </div>
+    </div>
+</body>
+</html>
