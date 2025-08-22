@@ -1,0 +1,45 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "Bash(chmod:*)",
+      "Bash(./get-launcher-url.sh:*)",
+      "Bash(tmux ls:*)",
+      "Bash(tmux capture-pane:*)",
+      "Bash(python3:*)",
+      "Bash(tmux send-keys:*)",
+      "Bash(curl:*)",
+      "Bash(./start.sh:*)",
+      "Bash(gh codespace ports:*)",
+      "Bash(cp:*)",
+      "Bash(tmux kill-session:*)",
+      "Bash(true)",
+      "Bash(tmux new-session:*)",
+      "Bash(tmux split-window:*)",
+      "Bash(echo:*)",
+      "Bash(/workspaces/ai-frame/update-codespaces-urls.sh:*)",
+      "Bash(cat:*)",
+      "Bash(rm:*)",
+      "Bash(mkdir:*)",
+      "Bash(./run-services.sh:*)",
+      "Bash(./integration-test.sh:*)",
+      "Bash(./test-image-capture.sh:*)",
+      "Bash(mv:*)",
+      "Bash(find:*)",
+      "Bash(tmux list-sessions:*)",
+      "Bash(tmux new-window:*)",
+      "Bash(tmux select-pane:*)",
+      "Bash(tmux list-panes:*)",
+      "WebFetch(domain:immersive-web.github.io)",
+      "WebFetch(domain:fastapi.tiangolo.com)",
+      "WebFetch(domain:docs.github.com)"
+    ],
+    "deny": [],
+    "ask": [],
+    "defaultMode": "acceptEdits"
+  },
+  "statusLine": {
+    "type": "command",
+    "command": ".claude/scripts/statusline.sh"
+  }
+}

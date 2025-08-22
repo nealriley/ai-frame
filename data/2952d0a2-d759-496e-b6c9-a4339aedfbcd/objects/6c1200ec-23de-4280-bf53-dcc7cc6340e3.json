@@ -1,0 +1,22 @@
+{
+  "id": "6c1200ec-23de-4280-bf53-dcc7cc6340e3",
+  "type": "cube",
+  "position": {
+    "x": 5.0121508201515885,
+    "y": -1.2311748539720808,
+    "z": 0.0
+  },
+  "rotation": {
+    "x": 0.0,
+    "y": 0.0,
+    "z": 0.0,
+    "w": 1.0
+  },
+  "scale": 1.0,
+  "color": "#5dfbfd",
+  "metadata": {
+    "createdFrom": "browser",
+    "timestamp": "2025-08-16T17:30:31.251Z"
+  },
+  "created_at": "2025-08-16 17:30:38.492530"
+}

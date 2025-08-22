@@ -1,0 +1,75 @@
+{
+  "id": "14e367bd-b4fa-49be-a2db-dc9e46adcd34",
+  "name": null,
+  "created_at": "2025-08-16 17:29:38.009907",
+  "updated_at": "2025-08-16T17:29:47.388965",
+  "objects": [
+    {
+      "id": "0155a532-0588-4b6b-8eb4-7fc2fdcd5a0d",
+      "type": "cube",
+      "position": {
+        "x": -3.0382625554843012,
+        "y": 0.6297682471902064,
+        "z": 0.0
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 1.0
+      },
+      "scale": 1.0,
+      "color": "#d67c90",
+      "metadata": {
+        "createdFrom": "browser",
+        "timestamp": "2025-08-16T17:29:38.832Z"
+      },
+      "created_at": "2025-08-16 17:29:46.415687"
+    },
+    {
+      "id": "6dde6f13-a061-4c04-a3b4-8e323ecfbed5",
+      "type": "cube",
+      "position": {
+        "x": 4.251854363222809,
+        "y": -2.1569888983466425,
+        "z": 0.0
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 1.0
+      },
+      "scale": 1.0,
+      "color": "#3c40f4",
+      "metadata": {
+        "createdFrom": "browser",
+        "timestamp": "2025-08-16T17:29:39.383Z"
+      },
+      "created_at": "2025-08-16 17:29:46.714479"
+    },
+    {
+      "id": "1172274b-8c0c-422f-a5d1-57f20081132e",
+      "type": "cube",
+      "position": {
+        "x": 1.0417401399411708,
+        "y": -1.60478113693123,
+        "z": 0.0
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 1.0
+      },
+      "scale": 1.0,
+      "color": "#32d5da",
+      "metadata": {
+        "createdFrom": "browser",
+        "timestamp": "2025-08-16T17:29:40.069Z"
+      },
+      "created_at": "2025-08-16 17:29:47.388664"
+    }
+  ],
+  "metadata": {}
+}

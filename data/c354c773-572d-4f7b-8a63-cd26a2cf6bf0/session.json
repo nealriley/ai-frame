@@ -1,0 +1,207 @@
+{
+  "id": "c354c773-572d-4f7b-8a63-cd26a2cf6bf0",
+  "name": null,
+  "created_at": "2025-08-16 17:25:33.653730",
+  "updated_at": "2025-08-16T17:26:02.987991",
+  "objects": [
+    {
+      "id": "031eac3c-cb82-42fb-9140-ae0d54afa065",
+      "type": "sphere",
+      "position": {
+        "x": -3.981061792185248,
+        "y": 3.5280033079709483,
+        "z": -1.7763568394002505e-15
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 1.0
+      },
+      "scale": 1.0,
+      "color": "#486e02",
+      "metadata": {
+        "createdFrom": "browser",
+        "timestamp": "2025-08-16T17:25:28.988Z"
+      },
+      "created_at": "2025-08-16 17:25:36.457246"
+    },
+    {
+      "id": "756733c9-64dd-4a83-b2dc-12acec1ef33c",
+      "type": "sphere",
+      "position": {
+        "x": -5.311145337007334,
+        "y": 1.1647619372807192,
+        "z": 0.0
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 1.0
+      },
+      "scale": 1.0,
+      "color": "#20960a",
+      "metadata": {
+        "createdFrom": "browser",
+        "timestamp": "2025-08-16T17:25:29.513Z"
+      },
+      "created_at": "2025-08-16 17:25:36.834890"
+    },
+    {
+      "id": "c0602643-f0a6-43f1-84e5-a610f334bd6f",
+      "type": "sphere",
+      "position": {
+        "x": -13.621706684248316,
+        "y": 2.2815683687309782,
+        "z": 0.0
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 1.0
+      },
+      "scale": 1.0,
+      "color": "#5ce14",
+      "metadata": {
+        "createdFrom": "browser",
+        "timestamp": "2025-08-16T17:25:30.983Z"
+      },
+      "created_at": "2025-08-16 17:25:38.318097"
+    },
+    {
+      "id": "ae0db716-3007-498f-8a94-d08970a19062",
+      "type": "sphere",
+      "position": {
+        "x": -13.621706684248316,
+        "y": 2.2815683687309782,
+        "z": 0.0
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 1.0
+      },
+      "scale": 1.0,
+      "color": "#cccf17",
+      "metadata": {
+        "createdFrom": "browser",
+        "timestamp": "2025-08-16T17:25:31.318Z"
+      },
+      "created_at": "2025-08-16 17:25:38.645923"
+    },
+    {
+      "id": "c8e87926-6a98-4480-aa45-bf6033b4d54e",
+      "type": "sphere",
+      "position": {
+        "x": -13.621706684248316,
+        "y": 2.2815683687309782,
+        "z": 0.0
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 1.0
+      },
+      "scale": 1.0,
+      "color": "#80f311",
+      "metadata": {
+        "createdFrom": "browser",
+        "timestamp": "2025-08-16T17:25:31.518Z"
+      },
+      "created_at": "2025-08-16 17:25:38.752086"
+    },
+    {
+      "id": "709776c7-e087-4af1-8d7f-36380931ed75",
+      "type": "sphere",
+      "position": {
+        "x": -13.621706684248316,
+        "y": 2.2815683687309782,
+        "z": 0.0
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 1.0
+      },
+      "scale": 1.0,
+      "color": "#d6b346",
+      "metadata": {
+        "createdFrom": "browser",
+        "timestamp": "2025-08-16T17:25:33.043Z"
+      },
+      "created_at": "2025-08-16 17:25:40.361537"
+    },
+    {
+      "id": "9f97b932-6736-4ec9-b825-6bc11770a21f",
+      "type": "sphere",
+      "position": {
+        "x": -4.100078272556313,
+        "y": 7.252624728020204,
+        "z": 0.0
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 1.0
+      },
+      "scale": 1.0,
+      "color": "#d1718e",
+      "metadata": {
+        "createdFrom": "browser",
+        "timestamp": "2025-08-16T17:25:33.726Z"
+      },
+      "created_at": "2025-08-16 17:25:40.959424"
+    },
+    {
+      "id": "6be2bd50-eb2a-414f-be9a-11369acfd92d",
+      "type": "sphere",
+      "position": {
+        "x": -5.560469388539463,
+        "y": 14.683500094190517,
+        "z": 0.0
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 1.0
+      },
+      "scale": 1.0,
+      "color": "#3bb4c6",
+      "metadata": {
+        "createdFrom": "browser",
+        "timestamp": "2025-08-16T17:25:54.724Z"
+      },
+      "created_at": "2025-08-16 17:26:01.962909"
+    },
+    {
+      "id": "f27ba8dc-b251-4bfd-86e6-71f468cc4430",
+      "type": "sphere",
+      "position": {
+        "x": 2.234123742823396,
+        "y": 13.832148005307705,
+        "z": 0.0
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 1.0
+      },
+      "scale": 1.0,
+      "color": "#89e644",
+      "metadata": {
+        "createdFrom": "browser",
+        "timestamp": "2025-08-16T17:25:55.752Z"
+      },
+      "created_at": "2025-08-16 17:26:02.987674"
+    }
+  ],
+  "metadata": {}
+}

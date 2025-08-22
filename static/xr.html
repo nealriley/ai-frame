@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Frame - XR Interface</title>
+    <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/supermedium/superframe@master/components/environment/dist/aframe-environment-component.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        }
+
+        #overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            z-index: 1000;
+            transition: transform 0.3s;
+        }
+
+        #overlay.hidden {
+            transform: translateY(-100%);
+        }
+
+        #overlay h1 {
+            margin: 0 0 10px 0;
+        }
+
+        #overlay .info {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        #enterButton {
+            background: white;
+            color: #667eea;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        #enterButton:hover {
+            transform: scale(1.05);
+        }
+
+        #statusBar {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 14px;
+            z-index: 999;
+            display: none;
+        }
+
+        #controls {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 12px;
+            z-index: 999;
+            max-width: 250px;
+        }
+
+        #controls h3 {
+            margin: 0 0 10px 0;
+        }
+
+        #controls .control {
+            margin: 5px 0;
+            padding: 5px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        #controls .key {
+            font-weight: bold;
+            color: #667eea;
+        }
+    </style>
+</head>
+<body>
+    <div id="overlay">
+        <h1>🎮 AI Frame XR</h1>
+        <div class="info">
+            <p>Augmented Reality Interface for Meta Quest 3</p>
+            <p>Session: <span id="sessionInfo">Initializing...</span></p>
+        </div>
+        <button id="enterButton">Enter AR Mode</button>
+    </div>
+
+    <div id="statusBar">
+        <span id="statusText">Ready</span>
+    </div>
+
+    <div id="controls">
+        <h3>Quest 3 Controls</h3>
+        <div class="control">
+            <span class="key">Trigger:</span> Place object
+        </div>
+        <div class="control">
+            <span class="key">Grip:</span> Take screenshot
+        </div>
+        <div class="control">
+            <span class="key">A Button:</span> Cycle object type
+        </div>
+        <div class="control">
+            <span class="key">B Button:</span> Delete object
+        </div>
+        <div class="control">
+            <span class="key">X Button:</span> Record audio (hold)
+        </div>
+        <div class="control">
+            <span class="key">Y Button:</span> Take photo
+        </div>
+    </div>
+
+    <a-scene
+        webxr="requiredFeatures: hit-test,local-floor,hand-tracking,anchors;
+               optionalFeatures: dom-overlay,unbounded;
+               overlayElement: #overlay;"
+        ar-hit-test="target: #marker; type: map"
+        vr-mode-ui="enabled: false"
+        embedded>
+        
+        <!-- Camera with controllers -->
+        <a-entity id="cameraRig" position="0 0 0">
+            <a-camera
+                id="camera"
+                position="0 1.6 0"
+                wasd-controls="enabled: false"
+                look-controls="pointerLockEnabled: false">
+                <!-- HUD Elements -->
+                <a-text
+                    id="hudText"
+                    value="Object: Cube"
+                    position="0 0.3 -1"
+                    align="center"
+                    color="#ffffff"
+                    scale="0.3 0.3 0.3">
+                </a-text>
+            </a-camera>
+
+            <!-- Quest 3 Controllers -->
+            <a-entity
+                id="leftController"
+                laser-controls="hand: left"
+                raycaster="objects: .interactive"
+                line="color: #667eea; opacity: 0.5">
+            </a-entity>
+
+            <a-entity
+                id="rightController"
+                laser-controls="hand: right"
+                raycaster="objects: .interactive"
+                line="color: #764ba2; opacity: 0.5">
+            </a-entity>
+        </a-entity>
+
+        <!-- Hit test marker -->
+        <a-entity id="marker" visible="false">
+            <a-ring
+                color="#00ff00"
+                radius-inner="0.1"
+                radius-outer="0.15"
+                rotation="-90 0 0">
+            </a-ring>
+            <a-box
+                id="preview"
+                position="0 0.05 0"
+                width="0.1"
+                height="0.1"
+                depth="0.1"
+                color="#00ff00"
+                opacity="0.5">
+            </a-box>
+        </a-entity>
+
+        <!-- Object templates -->
+        <a-assets>
+            <a-mixin id="cube-mixin" geometry="primitive: box" material="color: #4CC3D9"></a-mixin>
+            <a-mixin id="sphere-mixin" geometry="primitive: sphere" material="color: #EF2D5E"></a-mixin>
+            <a-mixin id="cylinder-mixin" geometry="primitive: cylinder" material="color: #FFC65D"></a-mixin>
+            <a-mixin id="pyramid-mixin" geometry="primitive: cone; radiusBottom: 0.5; radiusTop: 0" material="color: #7BC8A4"></a-mixin>
+            <a-mixin id="torus-mixin" geometry="primitive: torus" material="color: #93648D"></a-mixin>
+            <a-mixin id="plane-mixin" geometry="primitive: plane" material="color: #404040"></a-mixin>
+        </a-assets>
+    </a-scene>
+
+    <script type="module">
+        // API Configuration - detect Codespaces
+        const isCodespaces = window.location.hostname.includes('app.github.dev');
+        const API_BASE = window.location.origin;
+        
+        // State
+        let sessionId = null;
+        let currentObjectType = 'cube';
+        let objects = [];
+        let isRecording = false;
+        let mediaRecorder = null;
+        let audioChunks = [];
+        let xrSession = null;
+        let xrRefSpace = null;
+        let xrHitTestSource = null;
+        let placedObjects = [];
+
+        const objectTypes = ['cube', 'sphere', 'cylinder', 'pyramid', 'torus', 'plane'];
+        let objectTypeIndex = 0;
+
+        // Initialize session
+        async function initializeSession() {
+            try {
+                const response = await fetch(`${API_BASE}/api/sessions`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name: 'XR Session' })
+                });
+
+                if (response.ok) {
+                    const session = await response.json();
+                    sessionId = session.id;
+                    document.getElementById('sessionInfo').textContent = sessionId.substring(0, 8) + '...';
+                    showStatus('Session initialized');
+                }
+            } catch (error) {
+                showStatus('Failed to initialize session: ' + error.message);
+                console.error(error);
+            }
+        }
+
+        // WebXR Setup
+        async function enterXR() {
+            const scene = document.querySelector('a-scene');
+            
+            if (!scene.hasLoaded) {
+                scene.addEventListener('loaded', enterXR);
+                return;
+            }
+
+            // Check for WebXR support
+            if (!navigator.xr) {
+                showStatus('WebXR not supported');
+                return;
+            }
+
+            // Check for AR support
+            const supported = await navigator.xr.isSessionSupported('immersive-ar');
+            if (!supported) {
+                showStatus('AR not supported on this device');
+                return;
+            }
+
+            // Hide overlay
+            document.getElementById('overlay').classList.add('hidden');
+            document.getElementById('statusBar').style.display = 'block';
+
+            // Enter AR
+            const sceneEl = document.querySelector('a-scene');
+            sceneEl.enterAR();
+        }
+
+        // Controller input handling
+        function setupControllers() {
+            const leftController = document.getElementById('leftController');
+            const rightController = document.getElementById('rightController');
+
+            // Right controller - primary interactions
+            rightController.addEventListener('triggerdown', onTriggerDown);
+            rightController.addEventListener('gripdown', onGripDown);
+            rightController.addEventListener('abuttondown', onAButtonDown);
+            rightController.addEventListener('bbuttondown', onBButtonDown);
+
+            // Left controller - secondary interactions
+            leftController.addEventListener('xbuttondown', onXButtonDown);
+            leftController.addEventListener('xbuttonup', onXButtonUp);
+            leftController.addEventListener('ybuttondown', onYButtonDown);
+
+            // Hit test setup
+            setupHitTest();
+        }
+
+        async function setupHitTest() {
+            const scene = document.querySelector('a-scene');
+            const marker = document.getElementById('marker');
+
+            scene.addEventListener('enter-vr', async () => {
+                const session = scene.xrSession;
+                if (!session) return;
+
+                // Request hit test source
+                const viewerSpace = await session.requestReferenceSpace('viewer');
+                const hitTestSource = await session.requestHitTestSource({ space: viewerSpace });
+
+                session.requestAnimationFrame(function onXRFrame(time, frame) {
+                    const hitTestResults = frame.getHitTestResults(hitTestSource);
+                    
+                    if (hitTestResults.length > 0) {
+                        const hit = hitTestResults[0];
+                        const pose = hit.getPose(frame.session.referenceSpace);
+                        
+                        if (pose) {
+                            marker.setAttribute('visible', true);
+                            const position = pose.transform.position;
+                            const orientation = pose.transform.orientation;
+                            
+                            marker.object3D.position.set(position.x, position.y, position.z);
+                            marker.object3D.quaternion.set(orientation.x, orientation.y, orientation.z, orientation.w);
+                        }
+                    } else {
+                        marker.setAttribute('visible', false);
+                    }
+
+                    session.requestAnimationFrame(onXRFrame);
+                });
+            });
+        }
+
+        // Controller event handlers
+        async function onTriggerDown(event) {
+            const marker = document.getElementById('marker');
+            if (!marker.getAttribute('visible')) return;
+
+            const position = marker.object3D.position;
+            await placeObject(currentObjectType, position);
+        }
+
+        async function onGripDown(event) {
+            await takeScreenshot();
+        }
+
+        function onAButtonDown(event) {
+            // Cycle through object types
+            objectTypeIndex = (objectTypeIndex + 1) % objectTypes.length;
+            currentObjectType = objectTypes[objectTypeIndex];
+            
+            // Update HUD
+            document.getElementById('hudText').setAttribute('value', `Object: ${currentObjectType}`);
+            
+            // Update preview
+            const preview = document.getElementById('preview');
+            const geometries = {
+                'cube': 'primitive: box',
+                'sphere': 'primitive: sphere',
+                'cylinder': 'primitive: cylinder',
+                'pyramid': 'primitive: cone; radiusBottom: 0.5; radiusTop: 0',
+                'torus': 'primitive: torus',
+                'plane': 'primitive: plane'
+            };
+            preview.setAttribute('geometry', geometries[currentObjectType]);
+            
+            showStatus(`Selected: ${currentObjectType}`);
+        }
+
+        async function onBButtonDown(event) {
+            // Delete last placed object
+            if (placedObjects.length > 0) {
+                const lastObject = placedObjects.pop();
+                await deleteObject(lastObject.id);
+                
+                // Remove from scene
+                const entity = document.getElementById(`object-${lastObject.id}`);
+                if (entity) {
+                    entity.remove();
+                }
+                
+                showStatus('Object deleted');
+            }
+        }
+
+        async function onXButtonDown(event) {
+            // Start audio recording
+            await startAudioRecording();
+        }
+
+        async function onXButtonUp(event) {
+            // Stop audio recording
+            await stopAudioRecording();
+        }
+
+        async function onYButtonDown(event) {
+            // Take camera photo
+            await takeCameraPhoto();
+        }
+
+        // Object placement
+        async function placeObject(type, position) {
+            const objectData = {
+                type: type,
+                position: {
+                    x: position.x,
+                    y: position.y,
+                    z: position.z
+                },
+                rotation: { x: 0, y: 0, z: 0, w: 1 },
+                scale: 0.2,
+                color: `#${Math.floor(Math.random()*16777215).toString(16)}`,
+                metadata: {
+                    createdFrom: 'xr',
+                    timestamp: new Date().toISOString()
+                }
+            };
+
+            try {
+                const response = await fetch(`${API_BASE}/api/sessions/${sessionId}/objects`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(objectData)
+                });
+
+                if (response.ok) {
+                    const savedObject = await response.json();
+                    placedObjects.push(savedObject);
+                    
+                    // Add to A-Frame scene
+                    const scene = document.querySelector('a-scene');
+                    const entity = document.createElement('a-entity');
+                    entity.id = `object-${savedObject.id}`;
+                    entity.setAttribute('mixin', `${type}-mixin`);
+                    entity.setAttribute('position', `${position.x} ${position.y} ${position.z}`);
+                    entity.setAttribute('scale', '0.2 0.2 0.2');
+                    entity.setAttribute('material', `color: ${savedObject.color}`);
+                    entity.classList.add('interactive');
+                    scene.appendChild(entity);
+                    
+                    showStatus(`${type} placed`);
+                }
+            } catch (error) {
+                showStatus('Failed to place object');
+                console.error(error);
+            }
+        }
+
+        async function deleteObject(objectId) {
+            try {
+                const response = await fetch(`${API_BASE}/api/sessions/${sessionId}/objects/${objectId}`, {
+                    method: 'DELETE'
+                });
+
+                if (response.ok) {
+                    showStatus('Object deleted');
+                }
+            } catch (error) {
+                showStatus('Failed to delete object');
+                console.error(error);
+            }
+        }
+
+        // Media capture functions
+        async function takeScreenshot() {
+            const scene = document.querySelector('a-scene');
+            const canvas = scene.components.screenshot?.getCanvas('perspective');
+            
+            if (!canvas) {
+                // Fallback to renderer canvas
+                const renderer = scene.renderer;
+                const canvas = renderer.domElement;
+                
+                canvas.toBlob(async (blob) => {
+                    await uploadImage(blob, 'screenshot');
+                });
+            } else {
+                canvas.toBlob(async (blob) => {
+                    await uploadImage(blob, 'screenshot');
+                });
+            }
+            
+            showStatus('Screenshot captured');
+        }
+
+        async function takeCameraPhoto() {
+            // In AR mode, we'll capture the camera feed
+            // This requires WebXR camera access API (experimental)
+            const scene = document.querySelector('a-scene');
+            const session = scene.xrSession;
+            
+            if (session && session.requestVideoFrame) {
+                try {
+                    const frame = await session.requestVideoFrame();
+                    // Process video frame
+                    const canvas = document.createElement('canvas');
+                    canvas.width = frame.width;
+                    canvas.height = frame.height;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(frame, 0, 0);
+                    
+                    canvas.toBlob(async (blob) => {
+                        await uploadImage(blob, 'camera');
+                    });
+                    
+                    showStatus('Photo captured');
+                } catch (error) {
+                    // Fallback to screenshot if camera access fails
+                    await takeScreenshot();
+                }
+            } else {
+                // Fallback to screenshot
+                await takeScreenshot();
+            }
+        }
+
+        async function uploadImage(blob, type) {
+            const reader = new FileReader();
+            reader.onloadend = async () => {
+                const base64data = reader.result.split(',')[1];
+                
+                const formData = new FormData();
+                formData.append('image_data', base64data);
+                formData.append('metadata', JSON.stringify({
+                    type: type,
+                    timestamp: new Date().toISOString(),
+                    device: 'Quest 3'
+                }));
+
+                try {
+                    const response = await fetch(`${API_BASE}/api/sessions/${sessionId}/images`, {
+                        method: 'POST',
+                        body: formData
+                    });
+
+                    if (response.ok) {
+                        showStatus(`${type} saved`);
+                    }
+                } catch (error) {
+                    showStatus(`Failed to save ${type}`);
+                    console.error(error);
+                }
+            };
+            reader.readAsDataURL(blob);
+        }
+
+        async function startAudioRecording() {
+            if (!isRecording) {
+                try {
+                    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                    mediaRecorder = new MediaRecorder(stream);
+                    audioChunks = [];
+
+                    mediaRecorder.ondataavailable = (event) => {
+                        audioChunks.push(event.data);
+                    };
+
+                    mediaRecorder.start();
+                    isRecording = true;
+                    showStatus('Recording audio...');
+                } catch (error) {
+                    showStatus('Failed to start recording');
+                    console.error(error);
+                }
+            }
+        }
+
+        async function stopAudioRecording() {
+            if (isRecording && mediaRecorder) {
+                mediaRecorder.stop();
+                
+                mediaRecorder.onstop = async () => {
+                    const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+                    const reader = new FileReader();
+                    reader.onloadend = async () => {
+                        const base64data = reader.result.split(',')[1];
+                        
+                        const formData = new FormData();
+                        formData.append('audio_data', base64data);
+                        formData.append('metadata', JSON.stringify({
+                            type: 'recording',
+                            timestamp: new Date().toISOString(),
+                            device: 'Quest 3'
+                        }));
+
+                        try {
+                            const response = await fetch(`${API_BASE}/api/sessions/${sessionId}/audio`, {
+                                method: 'POST',
+                                body: formData
+                            });
+
+                            if (response.ok) {
+                                showStatus('Audio saved');
+                            }
+                        } catch (error) {
+                            showStatus('Failed to save audio');
+                            console.error(error);
+                        }
+                    };
+                    reader.readAsDataURL(audioBlob);
+                };
+                
+                isRecording = false;
+            }
+        }
+
+        function showStatus(message) {
+            const statusText = document.getElementById('statusText');
+            statusText.textContent = message;
+            
+            // Also update HUD in VR
+            const hudText = document.getElementById('hudText');
+            const currentValue = hudText.getAttribute('value');
+            hudText.setAttribute('value', `${currentValue.split('\n')[0]}\n${message}`);
+            
+            setTimeout(() => {
+                hudText.setAttribute('value', currentValue.split('\n')[0]);
+            }, 3000);
+        }
+
+        // Load existing objects when entering AR
+        async function loadExistingObjects() {
+            try {
+                const response = await fetch(`${API_BASE}/api/sessions/${sessionId}/objects`);
+                if (response.ok) {
+                    const objects = await response.json();
+                    const scene = document.querySelector('a-scene');
+                    
+                    objects.forEach(obj => {
+                        const entity = document.createElement('a-entity');
+                        entity.id = `object-${obj.id}`;
+                        entity.setAttribute('mixin', `${obj.type}-mixin`);
+                        entity.setAttribute('position', `${obj.position.x} ${obj.position.y} ${obj.position.z}`);
+                        entity.setAttribute('scale', `${obj.scale} ${obj.scale} ${obj.scale}`);
+                        entity.setAttribute('material', `color: ${obj.color}`);
+                        entity.classList.add('interactive');
+                        scene.appendChild(entity);
+                        
+                        placedObjects.push(obj);
+                    });
+                    
+                    if (objects.length > 0) {
+                        showStatus(`Loaded ${objects.length} objects`);
+                    }
+                }
+            } catch (error) {
+                console.error('Failed to load objects:', error);
+            }
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', async () => {
+            await initializeSession();
+            setupControllers();
+            
+            // Enter AR button
+            document.getElementById('enterButton').addEventListener('click', enterXR);
+            
+            // Load objects when entering VR
+            document.querySelector('a-scene').addEventListener('enter-vr', () => {
+                loadExistingObjects();
+            });
+            
+            // Keyboard shortcuts for desktop testing
+            document.addEventListener('keydown', async (e) => {
+                switch(e.key) {
+                    case '1': currentObjectType = 'cube'; showStatus('Selected: cube'); break;
+                    case '2': currentObjectType = 'sphere'; showStatus('Selected: sphere'); break;
+                    case '3': currentObjectType = 'cylinder'; showStatus('Selected: cylinder'); break;
+                    case '4': currentObjectType = 'pyramid'; showStatus('Selected: pyramid'); break;
+                    case '5': currentObjectType = 'torus'; showStatus('Selected: torus'); break;
+                    case '6': currentObjectType = 'plane'; showStatus('Selected: plane'); break;
+                    case 's': await takeScreenshot(); break;
+                    case 'r': 
+                        if (!isRecording) await startAudioRecording();
+                        else await stopAudioRecording();
+                        break;
+                    case 'p': await takeCameraPhoto(); break;
+                }
+            });
+
+            // Show status for Codespaces
+            if (isCodespaces) {
+                showStatus('Running in GitHub Codespaces');
+                console.log('API URL:', API_BASE);
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,22 @@
+{
+  "id": "1da1060e-300f-486f-9e6d-93e4ee4da6d2",
+  "type": "cube",
+  "position": {
+    "x": 6.489094505490437,
+    "y": -6.528924160660106,
+    "z": 0.0
+  },
+  "rotation": {
+    "x": 0.0,
+    "y": 0.0,
+    "z": 0.0,
+    "w": 1.0
+  },
+  "scale": 1.0,
+  "color": "#d5be5d",
+  "metadata": {
+    "createdFrom": "browser",
+    "timestamp": "2025-08-16T17:35:34.051Z"
+  },
+  "created_at": "2025-08-16 17:35:41.285297"
+}
